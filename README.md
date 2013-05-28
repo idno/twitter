@@ -6,9 +6,9 @@ This plugin provides POSSE support for idno.
 Installation
 ------------
 
-# Drop the Twitter folder into the IndoPlugins folder of your idno installation.
-# Log into idno and click on Administration.
-# Click "install" next to Twitter.
+* Drop the Twitter folder into the IndoPlugins folder of your idno installation.
+* Log into idno and click on Administration.
+* Click "install" next to Twitter.
 
 License
 -------
