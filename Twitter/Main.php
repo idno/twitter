@@ -25,7 +25,7 @@
                         $object = $event->data()['object'];
                         $twitterAPI = $this->connect();
                         $twitterAPI->request('POST', $twitterAPI->url('1/statuses/update'), array(
-                            'status' => $object->getDescription()
+                            'status' => strip_tags($object->getDescription())
                         ));
                     }
                 });
