@@ -8,3 +8,7 @@ Twitter/.idea/Twitter.iml
 Twitter/.idea/codeStyleSettings.xml
 
 *.xml
+
+.idea/.name
+
+*.iml

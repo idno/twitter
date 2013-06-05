@@ -24,9 +24,23 @@
                     if ($this->hasTwitter()) {
                         $object = $event->data()['object'];
                         $twitterAPI = $this->connect();
-                        $twitterAPI->request('POST', $twitterAPI->url('1/statuses/update'), array(
-                            'status' => strip_tags($object->getDescription())
-                        ));
+                        $status_full =  $object->getDescription();
+                        $status =       strip_tags($status_full);
+                        $params = array(
+                            'status' => $status
+                        );
+
+                        // Find any Twitter status IDs in case we need to mark this as a reply to them
+                        if (preg_match_all('/((ht|f)tps?:\/\/[^\s\r\n\t<>"\'\(\)]+)/i',$status_full,$matches)) {
+                            foreach($matches as $match) {
+                                if (parse_url($match[0], PHP_URL_HOST) == 'twitter.com') {
+                                    preg_match('/[0-9]+/', $match[0], $status_matches);
+                                    $params['in_reply_to_status_id'] = $status_matches[0];
+                                }
+                            }
+                        }
+
+                        $twitterAPI->request('POST', $twitterAPI->url('1/statuses/update'), $params);
                     }
                 });
 
@@ -36,13 +50,15 @@
                         $object = $event->data()['object'];
                         $twitterAPI = $this->connect();
                         $status = $object->getTitle();
-                        if (strlen($status) > 110) {
+                        if (strlen($status) > 110) {                // Trim status down if required
                             $status = substr($status, 0, 106) . ' ...';
                         }
                         $status .= ' ' . $object->getURL();
-                        $twitterAPI->request('POST', $twitterAPI->url('1/statuses/update'), array(
+                        $params = array(
                             'status' => $status
-                        ));
+                        );
+
+                        $twitterAPI->request('POST', $twitterAPI->url('1/statuses/update'), $params);
                     }
                 });
             }
