@@ -40,7 +40,7 @@
                             }
                         }
 
-                        $twitterAPI->request('POST', $twitterAPI->url('1/statuses/update'), $params);
+                        $twitterAPI->request('POST', $twitterAPI->url('1.1/statuses/update'), $params);
                     }
                 });
 
