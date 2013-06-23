@@ -40,7 +40,15 @@
                             }
                         }
 
-                        $twitterAPI->request('POST', $twitterAPI->url('1.1/statuses/update'), $params);
+                        $response = $twitterAPI->request('POST', $twitterAPI->url('1.1/statuses/update'), $params);
+    					if (!empty($twitterAPI->response['response'])) {
+							if ($json = json_decode($twitterAPI->response['response'])) {
+								if (!empty($json->id_str)) {
+									$object->setPosseLink('twitter','https://twitter.com/' . $json->user->screen_name . '/status/' . $json->id_str);
+									$object->save();
+								}
+							}
+						}
                     }
                 });
 
