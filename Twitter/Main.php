@@ -32,9 +32,9 @@
 
                         // Find any Twitter status IDs in case we need to mark this as a reply to them
                         if (preg_match_all('/((ht|f)tps?:\/\/[^\s\r\n\t<>"\'\(\)]+)/i',$status_full,$matches)) {
-                            foreach($matches as $match) {
-                                if (parse_url($match[0], PHP_URL_HOST) == 'twitter.com') {
-                                    preg_match('/[0-9]+/', $match[0], $status_matches);
+                            foreach($matches[0] as $match) {
+                                if (parse_url($match, PHP_URL_HOST) == 'twitter.com') {
+                                    preg_match('/[0-9]+/', $match, $status_matches);
                                     $params['in_reply_to_status_id'] = $status_matches[0];
                                 }
                             }
