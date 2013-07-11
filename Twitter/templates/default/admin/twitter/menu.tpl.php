@@ -1,1 +1,0 @@
-<li <?php if ($_SERVER['REQUEST_URI'] == '/admin/twitter/') echo 'class="active"'; ?>><a href="/admin/twitter/">Twitter</a></li>
