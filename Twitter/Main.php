@@ -120,8 +120,19 @@
                             $status = substr($status, 0, 106) . ' ...';
                         }
 
-                        $media = '';
-                        if ($attachments = $object->getAttachments()) {
+                        // Let's first try getting the thumbnail
+                        if (!empty($object->thumbnail_id)) {
+                            if ($thumb = (array) \Idno\Entities\File::getByID($object->thumbnail_id)) {
+                                $attachments = array($thumb['file']);
+                            }
+                        }
+
+                        // No? Then we'll use the main event
+                        if (empty($attachments)) {
+                            $attachments = $object->getAttachments();
+                        }
+
+                        if (!empty($attachments)) {
                             foreach($attachments as $attachment) {
                                 if ($bytes = \Idno\Entities\File::getFileDataByID((string) $attachment['_id'])) {
                                     $media = '';
