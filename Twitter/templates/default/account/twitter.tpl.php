@@ -36,7 +36,7 @@
                           </p>
                           <p>
                               <input type="hidden" name="remove" value="1" />
-                              <button type="submit" class="btn-primary">Click here to remove Twitter from your account.</button>
+                              <button type="submit" class="btn btn-primary">Click here to remove Twitter from your account.</button>
                           </p>
                       </div>
                   </div>
