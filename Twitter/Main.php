@@ -31,7 +31,9 @@
                         $status      = strip_tags($status_full);
 
                         // Add link to original post
-                        $status .= ' ' . $object->getShortURL();
+                        if (!substr_count($status, \Idno\Core\site()->config()->host)) {
+                            $status .= ' ' . $object->getCitation();
+                        }
 
                         // Get links at this stage
                         preg_match_all('/((ht|f)tps?:\/\/[^\s\r\n\t<>"\'\(\)]+)/i', $status_full, $matches);
