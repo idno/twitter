@@ -30,6 +30,9 @@
                         $status_full = $object->getDescription();
                         $status      = strip_tags($status_full);
 
+                        // Add link to original post
+                        $status .= ' ' . $object->getShortURL();
+
                         // Get links at this stage
                         preg_match_all('/((ht|f)tps?:\/\/[^\s\r\n\t<>"\'\(\)]+)/i', $status_full, $matches);
 
