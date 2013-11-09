@@ -32,7 +32,7 @@
 
                         // Add link to original post
                         if (!substr_count($status, \Idno\Core\site()->config()->host)) {
-                            $status .= ' ' . $object->getCitation();
+                            $status .= ' ' . $object->getShortURL();
                         }
 
                         // Get links at this stage
