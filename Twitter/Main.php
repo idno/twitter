@@ -30,8 +30,8 @@
                         $status_full = $object->getDescription();
                         $status      = strip_tags($status_full);
 
-                        // Add link to original post
-                        if (!substr_count($status, \Idno\Core\site()->config()->host)) {
+                        // Add link to original post, if IndieWeb references have been requested
+                        if (!substr_count($status, \Idno\Core\site()->config()->host) && \Idno\Core\site()->config()->indieweb_reference) {
                             $status .= ' ' . $object->getShortURL();
                         }
 
