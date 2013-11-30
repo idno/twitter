@@ -22,8 +22,13 @@
 
             function registerEventHooks()
             {
+
+                \Idno\Core\site()->syndication()->registerService('twitter', function() {
+                    return $this->hasTwitter();
+                }, ['note','article','image']);
+
                 // Push "notes" to Twitter
-                \Idno\Core\site()->addEventHook('post/note', function (\Idno\Core\Event $event) {
+                \Idno\Core\site()->addEventHook('post/note/twitter', function (\Idno\Core\Event $event) {
                     if ($this->hasTwitter()) {
                         $object      = $event->data()['object'];
                         $twitterAPI  = $this->connect();
@@ -95,7 +100,7 @@
                 });
 
                 // Push "articles" to Twitter
-                \Idno\Core\site()->addEventHook('post/article', function (\Idno\Core\Event $event) {
+                \Idno\Core\site()->addEventHook('post/article/twitter', function (\Idno\Core\Event $event) {
                     if ($this->hasTwitter()) {
                         $object     = $event->data()['object'];
                         $twitterAPI = $this->connect();
@@ -123,7 +128,7 @@
                 });
 
                 // Push "images" to Twitter
-                \Idno\Core\site()->addEventHook('post/image', function (\Idno\Core\Event $event) {
+                \Idno\Core\site()->addEventHook('post/image/twitter', function (\Idno\Core\Event $event) {
                     if ($this->hasTwitter()) {
                         $object     = $event->data()['object'];
                         $twitterAPI = $this->connect();
