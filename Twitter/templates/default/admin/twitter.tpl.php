@@ -18,7 +18,7 @@
                         The callback URL should be set to:
                     </p>
                     <p>
-                        <input type="text" name="ignore" class="span4" value="<?=\Idno\Core\site()->config()->url . 'twitter/callback'?> " />
+                        <input type="text" name="ignore" class="span4" value="<?=\Idno\Core\site()->config()->url . 'twitter/callback'?>" />
                     </p>
                     <p>
                         Once you've finished, fill in the details below:
