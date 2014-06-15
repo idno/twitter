@@ -26,13 +26,13 @@
                 </div>
             </div>
             <div class="control-group">
-                <label class="control-label" for="name">Consumer key</label>
+                <label class="control-label" for="name">API key</label>
                 <div class="controls">
                     <input type="text" id="name" placeholder="Consumer key" class="span4" name="consumer_key" value="<?=htmlspecialchars(\Idno\Core\site()->config()->twitter['consumer_key'])?>" >
                 </div>
             </div>
             <div class="control-group">
-                <label class="control-label" for="name">Consumer secret</label>
+                <label class="control-label" for="name">API secret</label>
                 <div class="controls">
                     <input type="text" id="name" placeholder="Consumer secret" class="span4" name="consumer_secret" value="<?=htmlspecialchars(\Idno\Core\site()->config()->twitter['consumer_secret'])?>" >
                 </div>
