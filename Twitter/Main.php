@@ -28,7 +28,7 @@
                         $object      = $event->data()['object'];
                         $twitterAPI  = $this->connect();
                         $status_full = $object->getDescription();
-                        $status      = strip_tags($status_full);
+                        $status      = preg_replace('/<[^\>]*>/', '', $status_full); //strip_tags($status_full);
 
                         // Get links at this stage
                         preg_match_all('/((ht|f)tps?:\/\/[^\s\r\n\t<>"\'\(\)]+)/i', $status_full, $matches);
