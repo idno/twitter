@@ -33,7 +33,7 @@
                         $object      = $event->data()['object'];
                         $twitterAPI  = $this->connect();
                         $status_full = $object->getDescription();
-                        $status      = strip_tags($status_full);
+                        $status      = preg_replace('/<[^\>]*>/', '', $status_full); //strip_tags($status_full);
 
                         // Add link to original post, if IndieWeb references have been requested
                         if (!substr_count($status, \Idno\Core\site()->config()->host) && \Idno\Core\site()->config()->indieweb_reference) {
