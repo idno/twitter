@@ -127,6 +127,34 @@
                     }
                 });
 
+                // Push "media" to Twitter
+                \Idno\Core\site()->addEventHook('post/media/twitter', function (\Idno\Core\Event $event) {
+                    if ($this->hasTwitter()) {
+                        $object     = $event->data()['object'];
+                        $twitterAPI = $this->connect();
+                        $status     = $object->getTitle();
+                        if (strlen($status) > 110) { // Trim status down if required
+                            $status = substr($status, 0, 106) . ' ...';
+                        }
+                        $status .= ' ' . $object->getURL();
+                        $params = array(
+                            'status' => $status
+                        );
+
+                        $response = $twitterAPI->request('POST', $twitterAPI->url('1.1/statuses/update'), $params);
+
+                        if (!empty($twitterAPI->response['response'])) {
+                            if ($json = json_decode($twitterAPI->response['response'])) {
+                                if (!empty($json->id_str)) {
+                                    $object->setPosseLink('twitter', 'https://twitter.com/' . $json->user->screen_name . '/status/' . $json->id_str);
+                                    $object->save();
+                                }
+                            }
+                        }
+
+                    }
+                });
+
                 // Push "images" to Twitter
                 \Idno\Core\site()->addEventHook('post/image/twitter', function (\Idno\Core\Event $event) {
                     if ($this->hasTwitter()) {
