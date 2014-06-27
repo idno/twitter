@@ -25,7 +25,7 @@
 
                 \Idno\Core\site()->syndication()->registerService('twitter', function() {
                     return $this->hasTwitter();
-                }, ['note','article','image']);
+                }, ['note','article','image','media']);
 
                 // Push "notes" to Twitter
                 \Idno\Core\site()->addEventHook('post/note/twitter', function (\Idno\Core\Event $event) {
