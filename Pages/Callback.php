@@ -34,6 +34,10 @@
                         else {
                             \Idno\Core\site()->session()->addMessage('Your Twitter credentials could not be saved.');
                         }
+                        if (!empty($_SESSION['onboarding_passthrough'])) {
+                            unset($_SESSION['onboarding_passthrough']);
+                            $this->forward(\Idno\Core\site()->config()->getURL() . 'begin/connect');
+                        }
                         $this->forward('/account/twitter');
                     }
                 }

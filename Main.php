@@ -18,6 +18,7 @@
                 // Add menu items to account & administration screens
                 \Idno\Core\site()->template()->extendTemplate('admin/menu/items', 'admin/twitter/menu');
                 \Idno\Core\site()->template()->extendTemplate('account/menu/items', 'account/twitter/menu');
+                \Idno\Core\site()->template()->extendTemplate('onboarding/connect/networks','onboarding/connect/twitter');
             }
 
             function registerEventHooks()
@@ -214,6 +215,24 @@
 
                     }
                 });
+            }
+
+            /**
+             * Retrieve the OAuth authentication URL for the API
+             * @return string
+             */
+            function getAuthURL() {
+                $twitter = $this;
+                $twitterAPI = $twitter->connect();
+                $code = $twitterAPI->request('POST', $twitterAPI->url('oauth/request_token', ''), array('oauth_callback' => \Idno\Core\site()->config()->url . 'twitter/callback','x_auth_access_type' => 'write'));
+                if ($code == 200) {
+                    $oauth = $twitterAPI->extract_params($twitterAPI->response['response']);
+                    \Idno\Core\site()->session()->set('oauth',$oauth); // Save OAuth to the session
+                    $oauth_url = $twitterAPI->url("oauth/authorize", '') .  "?oauth_token={$oauth['oauth_token']}";
+                } else {
+                    $oauth_url = '';
+                }
+                return $oauth_url;
             }
 
             /**
