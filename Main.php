@@ -180,7 +180,7 @@
 
                         if (!empty($attachments)) {
                             foreach ($attachments as $attachment) {
-                                if ($bytes = \Idno\Entities\File::getFileDataFromAttachment($attachment['_id']) {
+                                if ($bytes = \Idno\Entities\File::getFileDataFromAttachment($attachment['_id'])) {
                                     $media    = '';
                                     $filename = tempnam(sys_get_temp_dir(), 'idnotwitter');
                                     file_put_contents($filename, $bytes);
