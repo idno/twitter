@@ -15,9 +15,10 @@
             function getContent()
             {
                 $this->gatekeeper(); // Logged-in users only
-                if ($twitter = \Idno\Core\site()->plugins()->get('Twitter')) {
+                /*if ($twitter = \Idno\Core\site()->plugins()->get('Twitter')) {
                     $oauth_url = $twitter->getAuthURL();
-                }
+                }*/
+                $oauth_url = \Idno\Core\site()->config()->getURL() . 'twitter/auth';
                 $t = \Idno\Core\site()->template();
                 $body = $t->__(['oauth_url' => $oauth_url])->draw('account/twitter');
                 $t->__(['title' => 'Twitter', 'body' => $body])->drawPage();

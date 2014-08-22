@@ -1,8 +1,6 @@
 <?php
 
-    if ($twitter = \Idno\Core\site()->plugins()->get('Twitter')) {
-        $login_url = $twitter->getAuthURL();
-    }
+    $login_url = \Idno\Core\site()->config()->getURL() . 'twitter/auth';
 
 ?>
 <div class="social">

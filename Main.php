@@ -7,6 +7,8 @@
 
             function registerPages()
             {
+                // Auth URL
+                \Idno\Core\site()->addPageHandler('twitter/auth', '\IdnoPlugins\Twitter\Pages\Auth');
                 // Register the callback URL
                 \Idno\Core\site()->addPageHandler('twitter/callback', '\IdnoPlugins\Twitter\Pages\Callback');
                 // Register admin settings
@@ -88,7 +90,6 @@
                         }
 
                         $response = $twitterAPI->request('POST', $twitterAPI->url('1.1/statuses/update'), $params);
-                        error_log(var_export($response, true));
                         if (!empty($twitterAPI->response['response'])) {
                             if ($json = json_decode($twitterAPI->response['response'])) {
                                 if (!empty($json->id_str)) {
@@ -203,7 +204,6 @@
 
                         @unlink($filename);
 
-                        error_log(var_export($twitterAPI->response['response'], true));
                         if (!empty($twitterAPI->response['response'])) {
                             if ($json = json_decode($twitterAPI->response['response'])) {
                                 if (!empty($json->id_str)) {
