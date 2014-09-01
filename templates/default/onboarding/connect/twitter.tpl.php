@@ -10,7 +10,7 @@
             echo 'connected';
         }
 
-    ?>">Twitter<?php
+    ?>" target="_top">Twitter<?php
 
             if (!empty(\Idno\Core\site()->session()->currentUser()->twitter)) {
                 echo ' - connected!';
