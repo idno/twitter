@@ -20,23 +20,24 @@
                 // Add menu items to account & administration screens
                 \Idno\Core\site()->template()->extendTemplate('admin/menu/items', 'admin/twitter/menu');
                 \Idno\Core\site()->template()->extendTemplate('account/menu/items', 'account/twitter/menu');
-                \Idno\Core\site()->template()->extendTemplate('onboarding/connect/networks','onboarding/connect/twitter');
+                \Idno\Core\site()->template()->extendTemplate('onboarding/connect/networks', 'onboarding/connect/twitter');
             }
 
             function registerEventHooks()
             {
 
-                \Idno\Core\site()->syndication()->registerService('twitter', function() {
+                \Idno\Core\site()->syndication()->registerService('twitter', function () {
                     return $this->hasTwitter();
-                }, ['note','article','image','media']);
+                }, ['note', 'article', 'image', 'media']);
 
                 // Push "notes" to Twitter
                 \Idno\Core\site()->addEventHook('post/note/twitter', function (\Idno\Core\Event $event) {
                     if ($this->hasTwitter()) {
                         $object      = $event->data()['object'];
                         $twitterAPI  = $this->connect();
-                        $status_full = $object->getDescription();
+                        $status_full = trim($object->getDescription());
                         $status      = preg_replace('/<[^\>]*>/', '', $status_full); //strip_tags($status_full);
+                        $status      = str_replace("\r", '', $status);
 
                         // Add link to original post, if IndieWeb references have been requested
                         if (!substr_count($status, \Idno\Core\site()->config()->host) && \Idno\Core\site()->config()->indieweb_reference) {
@@ -50,6 +51,10 @@
                         preg_match_all('/((ht|f)tps?:\/\/[^\s\r\n\t<>"\'\(\)]+)/i', $status, $url_matches);
 
                         $count_status = preg_replace('/((ht|f)tps?:\/\/[^\s\r\n\t<>"\'\(\)]+)/i', '12345678901234567890123', $status);
+
+                        $count_status = trim($count_status);
+
+                        error_log($status . ': ' . strlen($count_status) . ' characters');
 
                         if (strlen($count_status) > 140) {
                             $count_status = substr($count_status, 0, 115);
@@ -73,7 +78,7 @@
                             $status = $count_status;
                         }
 
-                        $status = preg_replace('/[ ]{2,}/',' ',$status);
+                        $status = preg_replace('/[ ]{2,}/', ' ', $status);
 
                         $params = array(
                             'status' => $status
@@ -221,17 +226,19 @@
              * Retrieve the OAuth authentication URL for the API
              * @return string
              */
-            function getAuthURL() {
-                $twitter = $this;
+            function getAuthURL()
+            {
+                $twitter    = $this;
                 $twitterAPI = $twitter->connect();
-                $code = $twitterAPI->request('POST', $twitterAPI->url('oauth/request_token', ''), array('oauth_callback' => \Idno\Core\site()->config()->url . 'twitter/callback','x_auth_access_type' => 'write'));
+                $code       = $twitterAPI->request('POST', $twitterAPI->url('oauth/request_token', ''), array('oauth_callback' => \Idno\Core\site()->config()->url . 'twitter/callback', 'x_auth_access_type' => 'write'));
                 if ($code == 200) {
                     $oauth = $twitterAPI->extract_params($twitterAPI->response['response']);
-                    \Idno\Core\site()->session()->set('oauth',$oauth); // Save OAuth to the session
-                    $oauth_url = $twitterAPI->url("oauth/authorize", '') .  "?oauth_token={$oauth['oauth_token']}";
+                    \Idno\Core\site()->session()->set('oauth', $oauth); // Save OAuth to the session
+                    $oauth_url = $twitterAPI->url("oauth/authorize", '') . "?oauth_token={$oauth['oauth_token']}";
                 } else {
                     $oauth_url = '';
                 }
+
                 return $oauth_url;
             }
 
