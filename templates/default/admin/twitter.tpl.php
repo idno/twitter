@@ -21,7 +21,7 @@
                         <input type="text" name="ignore" class="span4" value="<?=\Idno\Core\site()->config()->url . 'twitter/callback'?>" />
                     </p>
                     <p>
-                        Once you've finished, fill in the details below:
+                        Once you've finished, fill in the details below. You can then <a href="<?=\Idno\Core\site()->config()->getURL()?>settings/twitter/">connect your Twitter account</a>.
                     </p>
                 </div>
             </div>
