@@ -1,6 +1,10 @@
 <?php
 
-    $login_url = \Idno\Core\site()->config()->getURL() . 'twitter/auth';
+    if (empty(\Idno\Core\site()->session()->currentUser()->twitter)) {
+        $login_url = \Idno\Core\site()->config()->getURL() . 'twitter/auth';
+    } else {
+        $login_url = \Idno\Core\site()->config()->getURL() . 'twitter/deauth';
+    }
 
 ?>
 <div class="social">

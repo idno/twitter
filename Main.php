@@ -9,6 +9,8 @@
             {
                 // Auth URL
                 \Idno\Core\site()->addPageHandler('twitter/auth', '\IdnoPlugins\Twitter\Pages\Auth');
+                // Deauth URL
+                \Idno\Core\site()->addPageHandler('twitter/deauth', '\IdnoPlugins\Twitter\Pages\Deauth');
                 // Register the callback URL
                 \Idno\Core\site()->addPageHandler('twitter/callback', '\IdnoPlugins\Twitter\Pages\Callback');
                 // Register admin settings

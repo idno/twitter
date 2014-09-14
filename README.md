@@ -1,13 +1,13 @@
-Twitter for Known
-=================
+Twitter for idno
+================
 
-This plugin provides POSSE support for Known.
+This plugin provides POSSE support for idno.
 
 Installation
 ------------
 
-* Drop the Twitter folder into the IdnoPlugins folder of your Known installation.
-* Log into Known and click on Administration.
+* Drop the Twitter folder into the IdnoPlugins folder of your idno installation.
+* Log into idno and click on Administration.
 * Click "install" next to Twitter.
 
 License
