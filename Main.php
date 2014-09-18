@@ -206,7 +206,11 @@
                             'media[]' => $media
                         );
 
-                        $response = $twitterAPI->request('POST', $twitterAPI->url('1.1/statuses/update_with_media'), $params, true, true);
+                        try {
+                            $response = $twitterAPI->request('POST', $twitterAPI->url('1.1/statuses/update_with_media'), $params, true, true);
+                        } catch (\Exception $e) {
+                            error_log($e);
+                        }
                         /*$code = $twitterAPI->request( 'POST','https://upload.twitter.com/1.1/statuses/update_with_media',
                             $params,
                             true, // use auth
