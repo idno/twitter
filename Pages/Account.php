@@ -20,15 +20,15 @@
                 }*/
                 $oauth_url = \Idno\Core\site()->config()->getURL() . 'twitter/auth';
                 $t = \Idno\Core\site()->template();
-                $body = $t->__(['oauth_url' => $oauth_url])->draw('account/twitter');
-                $t->__(['title' => 'Twitter', 'body' => $body])->drawPage();
+                $body = $t->__(array('oauth_url' => $oauth_url))->draw('account/twitter');
+                $t->__(array('title' => 'Twitter', 'body' => $body))->drawPage();
             }
 
             function postContent() {
                 $this->gatekeeper(); // Logged-in users only
                 if (($this->getInput('remove'))) {
                     $user = \Idno\Core\site()->session()->currentUser();
-                    $user->twitter = [];
+                    $user->twitter = array();
                     $user->save();
                     \Idno\Core\site()->session()->addMessage('Your Twitter settings have been removed from your account.');
                 }

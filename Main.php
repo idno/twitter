@@ -240,6 +240,9 @@
             {
                 $twitter    = $this;
                 $twitterAPI = $twitter->connect();
+                if (!$twitterAPI) {
+                    return '';
+                }
                 $code       = $twitterAPI->request('POST', $twitterAPI->url('oauth/request_token', ''), array('oauth_callback' => \Idno\Core\site()->config()->url . 'twitter/callback', 'x_auth_access_type' => 'write'));
                 if ($code == 200) {
                     $oauth = $twitterAPI->extract_params($twitterAPI->response['response']);
@@ -263,10 +266,10 @@
                 require_once(dirname(__FILE__) . '/external/tmhOAuth/tmhOAuth.php');
                 require_once(dirname(__FILE__) . '/external/tmhOAuth/tmhUtilities.php');
                 if (!empty(\Idno\Core\site()->config()->twitter)) {
-                    $params = [
+                    $params = array(
                         'consumer_key'    => \Idno\Core\site()->config()->twitter['consumer_key'],
                         'consumer_secret' => \Idno\Core\site()->config()->twitter['consumer_secret'],
-                    ];
+                    );
                     if (!empty(\Idno\Core\site()->session()->currentUser()->twitter)) {
                         $params = array_merge($params, \Idno\Core\site()->session()->currentUser()->twitter);
                     }
