@@ -111,8 +111,8 @@
 
                 // Function for articles, RSVPs etc
                 $article_handler = function (\Idno\Core\Event $event) {
-                    $eventdata = $event->data();
                     if ($this->hasTwitter()) {
+                        $eventdata = $event->data();
                         $object     = $eventdata['object'];
                         $twitterAPI = $this->connect();
                         $status     = $object->getTitle();
@@ -144,8 +144,8 @@
 
                 // Push "media" to Twitter
                 \Idno\Core\site()->addEventHook('post/media/twitter', function (\Idno\Core\Event $event) {
-                    $eventdata = $event->data();
                     if ($this->hasTwitter()) {
+                        $eventdata = $event->data();
                         $object     = $eventdata['object'];
                         $twitterAPI = $this->connect();
                         $status     = $object->getTitle();
@@ -173,8 +173,8 @@
 
                 // Push "images" to Twitter
                 \Idno\Core\site()->addEventHook('post/image/twitter', function (\Idno\Core\Event $event) {
-                    $eventdata = $event->data();
                     if ($this->hasTwitter()) {
+                        $eventdata = $event->data();
                         $object     = $eventdata['object'];
                         $twitterAPI = $this->connect();
                         $status     = $object->getTitle();
@@ -291,4 +291,12 @@
             function hasTwitter()
             {
                 if (\Idno\Core\site()->session()->currentUser()->twitter) {
-                    retu
+                    return true;
+                }
+
+                return false;
+            }
+
+        }
+
+    }
