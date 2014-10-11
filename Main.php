@@ -34,8 +34,9 @@
 
                 // Push "notes" to Twitter
                 \Idno\Core\site()->addEventHook('post/note/twitter', function (\Idno\Core\Event $event) {
+                    $eventdata = $event->data();
                     if ($this->hasTwitter()) {
-                        $object      = $event->data()['object'];
+                        $object      = $eventdata['object'];
                         $twitterAPI  = $this->connect();
                         $status_full = trim($object->getDescription());
                         $status      = preg_replace('/<[^\>]*>/', '', $status_full); //strip_tags($status_full);
@@ -110,8 +111,9 @@
 
                 // Function for articles, RSVPs etc
                 $article_handler = function (\Idno\Core\Event $event) {
+                    $eventdata = $event->data();
                     if ($this->hasTwitter()) {
-                        $object     = $event->data()['object'];
+                        $object     = $eventdata['object'];
                         $twitterAPI = $this->connect();
                         $status     = $object->getTitle();
                         if (strlen($status) > 110) { // Trim status down if required
@@ -142,8 +144,9 @@
 
                 // Push "media" to Twitter
                 \Idno\Core\site()->addEventHook('post/media/twitter', function (\Idno\Core\Event $event) {
+                    $eventdata = $event->data();
                     if ($this->hasTwitter()) {
-                        $object     = $event->data()['object'];
+                        $object     = $eventdata['object'];
                         $twitterAPI = $this->connect();
                         $status     = $object->getTitle();
                         if (strlen($status) > 110) { // Trim status down if required
@@ -170,8 +173,9 @@
 
                 // Push "images" to Twitter
                 \Idno\Core\site()->addEventHook('post/image/twitter', function (\Idno\Core\Event $event) {
+                    $eventdata = $event->data();
                     if ($this->hasTwitter()) {
-                        $object     = $event->data()['object'];
+                        $object     = $eventdata['object'];
                         $twitterAPI = $this->connect();
                         $status     = $object->getTitle();
                         if (strlen($status) > 110) { // Trim status down if required
@@ -287,12 +291,4 @@
             function hasTwitter()
             {
                 if (\Idno\Core\site()->session()->currentUser()->twitter) {
-                    return true;
-                }
-
-                return false;
-            }
-
-        }
-
-    }
+                    retu
