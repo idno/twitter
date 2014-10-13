@@ -234,6 +234,54 @@
 
                     }
                 });
+                
+                // Push bookmarks to Twitter
+                \Idno\Core\site()->addEventHook('post/bookmark/twitter', function (\Idno\Core\Event $event) {
+                    if ($this->hasTwitter()) {
+	                    $object = $event->data()['object'];
+                        $twitterAPI = $this->connect();
+                        
+                        // Let's get the current max t.co length
+                        $twitterconfig = $twitterAPI->request('GET', $twitterAPI->url('1.1/help/configuration'));
+                        $shorturllength = $twitterconfig['short_url_length_https'];
+                        
+                        // Grab the fields
+                        $url = $object->body;
+                        $title = $object->getTitleFromURL($url);
+                        $desc = $object->description;
+                        
+                        // First let's see if we can fit everything
+                        if((strlen($title) + strlen($desc) + $shorturllength + 2) <= 140) {
+                        	$status = $title . ' ' . $url . ' ' . $desc;
+                        }
+                        // If not we'll just take the title and url
+                        elseif((strlen($title) + $shorturllength + 1) <= 140) {
+                        	$status = $title . ' ' . $url;
+                        }
+                        // Otherwise let's shorten the title
+                        else{
+	                        $titlecount = 140 - $shorturllength;
+	                        $title = substr($title, ($titlecount-4)) . '...';
+	                        $status = $title . ' ' . $url;
+                        }
+                        
+                        $params = array(
+                            'status' => $status
+                        );
+
+                        $response = $twitterAPI->request('POST', $twitterAPI->url('1.1/statuses/update'), $params);
+
+                        if (!empty($twitterAPI->response['response'])) {
+                            if ($json = json_decode($twitterAPI->response['response'])) {
+                                if (!empty($json->id_str)) {
+                                    $object->setPosseLink('twitter', 'https://twitter.com/' . $json->user->screen_name . '/status/' . $json->id_str);
+                                    $object->save();
+                                }
+                            }
+                        }
+                  
+				  	} 
+                });
             }
 
             /**
