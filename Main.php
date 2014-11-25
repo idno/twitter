@@ -32,12 +32,24 @@
                     return $this->hasTwitter();
                 }, array('note', 'article', 'image', 'media', 'rsvp'));
 
+                if ($this->hasTwitter()) {
+                    if (is_array(\Idno\Core\site()->session()->currentUser()->twitter)) {
+                        foreach(\Idno\Core\site()->session()->currentUser()->twitter as $username => $details) {
+                            \Idno\Core\site()->syndication()->registerServiceAccount('twitter', $username, '@' . $username);
+                        }
+                    }
+                }
+
                 // Push "notes" to Twitter
                 \Idno\Core\site()->addEventHook('post/note/twitter', function (\Idno\Core\Event $event) {
                     $eventdata = $event->data();
                     if ($this->hasTwitter()) {
                         $object      = $eventdata['object'];
-                        $twitterAPI  = $this->connect();
+                        if (!empty($eventdata['syndication_account'])) {
+                            $twitterAPI  = $this->connect($eventdata['syndication_account']);
+                        } else {
+                            $twitterAPI  = $this->connect();
+                        }
                         $status_full = trim($object->getDescription());
                         $status      = preg_replace('/<[^\>]*>/', '', $status_full); //strip_tags($status_full);
                         $status      = str_replace("\r", '', $status);
@@ -101,7 +113,7 @@
                         if (!empty($twitterAPI->response['response'])) {
                             if ($json = json_decode($twitterAPI->response['response'])) {
                                 if (!empty($json->id_str)) {
-                                    $object->setPosseLink('twitter', 'https://twitter.com/' . $json->user->screen_name . '/status/' . $json->id_str);
+                                    $object->setPosseLink('twitter', 'https://twitter.com/' . $json->user->screen_name . '/status/' . $json->id_str, '@' . $json->user->screen_name);
                                     $object->save();
                                 }
                             }
@@ -263,9 +275,10 @@
              * Returns a new Twitter OAuth connection object, if credentials have been added through administration
              * and it's possible to connect
              *
+             * @param $username If supplied, attempts to connect with this username
              * @return bool|\tmhOAuth
              */
-            function connect()
+            function connect($username = false)
             {
                 require_once(dirname(__FILE__) . '/external/tmhOAuth/tmhOAuth.php');
                 require_once(dirname(__FILE__) . '/external/tmhOAuth/tmhUtilities.php');
@@ -274,7 +287,9 @@
                         'consumer_key'    => \Idno\Core\site()->config()->twitter['consumer_key'],
                         'consumer_secret' => \Idno\Core\site()->config()->twitter['consumer_secret'],
                     );
-                    if (!empty(\Idno\Core\site()->session()->currentUser()->twitter)) {
+                    if (!empty($username) && !empty(\Idno\Core\site()->session()->currentUser()->twitter[$username])) {
+                        $params = array_merge($params, \Idno\Core\site()->session()->currentUser()->twitter[$username]);
+                    } else if (!empty(\Idno\Core\site()->session()->currentUser()->twitter['user_token'])) {
                         $params = array_merge($params, \Idno\Core\site()->session()->currentUser()->twitter);
                     }
 
@@ -290,7 +305,7 @@
              */
             function hasTwitter()
             {
-                if (\Idno\Core\site()->session()->currentUser()->twitter) {
+                if (!empty(\Idno\Core\site()->session()->currentUser()->twitter)) {
                     return true;
                 }
 

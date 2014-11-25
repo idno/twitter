@@ -34,7 +34,8 @@
                             $access_token = $twitterAPI->extract_params($twitterAPI->response['response']);
                             \Idno\Core\site()->session()->remove('oauth');
                             $user = \Idno\Core\site()->session()->currentUser();
-                            $user->twitter = array('user_token' => $access_token['oauth_token'], 'user_secret' => $access_token['oauth_token_secret'], 'screen_name' => $access_token['screen_name']);
+                            \Idno\Core\site()->syndication()->registerServiceAccount('twitter', $access_token['screen_name'], '@' . $access_token['screen_name']);
+                            $user->twitter[$access_token['screen_name']] = array('user_token' => $access_token['oauth_token'], 'user_secret' => $access_token['oauth_token_secret'], 'screen_name' => $access_token['screen_name']);
                             $user->save();
                             \Idno\Core\site()->session()->addMessage('Your Twitter credentials were saved.');
 
