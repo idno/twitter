@@ -126,7 +126,11 @@
                     if ($this->hasTwitter()) {
                         $eventdata = $event->data();
                         $object     = $eventdata['object'];
-                        $twitterAPI = $this->connect();
+                        if (!empty($eventdata['syndication_account'])) {
+                            $twitterAPI  = $this->connect($eventdata['syndication_account']);
+                        } else {
+                            $twitterAPI  = $this->connect();
+                        }
                         $status     = $object->getTitle();
                         if (strlen($status) > 110) { // Trim status down if required
                             $status = substr($status, 0, 106) . ' ...';
@@ -159,7 +163,11 @@
                     if ($this->hasTwitter()) {
                         $eventdata = $event->data();
                         $object     = $eventdata['object'];
-                        $twitterAPI = $this->connect();
+                        if (!empty($eventdata['syndication_account'])) {
+                            $twitterAPI  = $this->connect($eventdata['syndication_account']);
+                        } else {
+                            $twitterAPI  = $this->connect();
+                        }
                         $status     = $object->getTitle();
                         if (strlen($status) > 110) { // Trim status down if required
                             $status = substr($status, 0, 106) . ' ...';
@@ -188,7 +196,11 @@
                     if ($this->hasTwitter()) {
                         $eventdata = $event->data();
                         $object     = $eventdata['object'];
-                        $twitterAPI = $this->connect();
+                        if (!empty($eventdata['syndication_account'])) {
+                            $twitterAPI  = $this->connect($eventdata['syndication_account']);
+                        } else {
+                            $twitterAPI  = $this->connect();
+                        }
                         $status     = $object->getTitle();
                         if (strlen($status) > 110) { // Trim status down if required
                             $status = substr($status, 0, 106) . ' ...';
