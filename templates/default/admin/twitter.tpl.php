@@ -8,7 +8,7 @@
 </div>
 <div class="row">
     <div class="span10 offset1">
-        <form action="<?= \Idno\Core\site()->config()->getURL() ?>admin/twitter/" class="form-horizontal"
+        <form action="<?= \Idno\Core\site()->config()->getDisplayURL() ?>admin/twitter/" class="form-horizontal"
               method="post">
             <div class="control-group">
                 <div class="controls">

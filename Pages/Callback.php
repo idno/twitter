@@ -48,7 +48,7 @@
                             unset($_SESSION['onboarding_passthrough']);
                             $this->forward(\Idno\Core\site()->config()->getURL() . 'begin/connect-forwarder');
                         }
-                        $this->forward('/account/twitter');
+                        $this->forward(\Idno\Core\site()->config()->getDisplayURL() . 'account/twitter');
                     }
                 }
             }

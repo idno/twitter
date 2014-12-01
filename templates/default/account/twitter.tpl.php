@@ -13,7 +13,7 @@
             if (!empty(\Idno\Core\site()->config()->twitter['consumer_key']) && !empty(\Idno\Core\site()->config()->twitter['consumer_secret'])) {
 
                 ?>
-                <form action="/account/twitter/" class="form-horizontal" method="post">
+                <form action="<?= \Idno\Core\site()->config()->getDisplayURL() ?>account/twitter/" class="form-horizontal" method="post">
                     <?php
                         if (empty(\Idno\Core\site()->session()->currentUser()->twitter)) {
 

@@ -30,7 +30,7 @@
                 );
                 \Idno\Core\site()->config()->save();
                 \Idno\Core\site()->session()->addMessage('Your Twitter application details were saved.');
-                $this->forward('/admin/twitter/');
+                $this->forward(\Idno\Core\site()->config()->getDisplayURL() . 'admin/twitter/');
             }
 
         }
