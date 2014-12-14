@@ -33,7 +33,7 @@
                 }, array('note', 'article', 'image', 'media', 'rsvp'));
 
                 if ($this->hasTwitter()) {
-                    if (is_array(\Idno\Core\site()->session()->currentUser()->twitter)) {
+                    if (is_array(\Idno\Core\site()->session()->currentUser()->twitter) && !array_key_exists('user_token', \Idno\Core\site()->session()->currentUser()->twitter)) {
                         foreach(\Idno\Core\site()->session()->currentUser()->twitter as $username => $details) {
                             \Idno\Core\site()->syndication()->registerServiceAccount('twitter', $username, '@' . $username);
                         }
