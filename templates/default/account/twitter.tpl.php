@@ -49,10 +49,12 @@
                           </p>
 						</div>
 						</div>
+						<div class="social">
                           <p>
                               <input type="hidden" name="remove" value="1" />
-                              <button type="submit" class="btn btn-primary">Disconnect Twitter</button>
+                              <button type="submit" class="connect tw connected">Disconnect Twitter</button>
                           </p>
+						</div>
                           
                       </div>
                   </div>
