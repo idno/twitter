@@ -317,6 +317,9 @@
              */
             function hasTwitter()
             {
+                if (!\Idno\Core\site()->session()->currentUser()) {
+                    return false;
+                }
                 if (!empty(\Idno\Core\site()->session()->currentUser()->twitter)) {
                     return true;
                 }
