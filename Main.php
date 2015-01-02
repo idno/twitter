@@ -69,11 +69,11 @@
 
                         $count_status = trim($count_status);
 
-                        error_log($status . ': ' . strlen($count_status) . ' characters');
+                        error_log($status . ': ' . mb_strlen($count_status) . ' characters');
 
-                        if (strlen($count_status) > 140) {
+                        if (mb_strlen($count_status) > 140) {
                             $count_status = substr($count_status, 0, 115);
-                            if ($count_status[strlen($count_status) - 1] != ' ') {
+                            if ($count_status[mb_strlen($count_status) - 1] != ' ') {
                                 $count_status = substr($count_status, 0, strrpos($count_status, ' '));
                             }
                             $count_status = preg_replace_callback('/12345678901234567890123/', function ($callback) {
@@ -132,7 +132,7 @@
                             $twitterAPI  = $this->connect();
                         }
                         $status     = $object->getTitle();
-                        if (strlen($status) > 110) { // Trim status down if required
+                        if (mb_strlen($status) > 110) { // Trim status down if required
                             $status = substr($status, 0, 106) . ' ...';
                         }
                         $status .= ' ' . $object->getURL();
@@ -169,7 +169,7 @@
                             $twitterAPI  = $this->connect();
                         }
                         $status     = $object->getTitle();
-                        if (strlen($status) > 110) { // Trim status down if required
+                        if (mb_strlen($status) > 110) { // Trim status down if required
                             $status = substr($status, 0, 106) . ' ...';
                         }
                         $status .= ' ' . $object->getURL();
@@ -202,7 +202,7 @@
                             $twitterAPI  = $this->connect();
                         }
                         $status     = $object->getTitle();
-                        if (strlen($status) > 110) { // Trim status down if required
+                        if (mb_strlen($status) > 110) { // Trim status down if required
                             $status = substr($status, 0, 106) . ' ...';
                         }
 
