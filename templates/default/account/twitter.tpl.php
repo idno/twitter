@@ -88,7 +88,7 @@
                                                 <p>
                                                     <input type="hidden" name="remove" value="<?= $account['username'] ?>"/>
                                                     <button type="submit"
-                                                            class="connect tw connected">@<?= $account['username'] ?></button>
+                                                            class="connect tw connected">@<?= $account['username'] ?> (Disconnect)</button>
                                                 </p>
                                             <?php
 
