@@ -31,18 +31,18 @@
                     </p>
                 <label class="control-label" for="name">API key</label>
                 <div class="controls">
-                    <input type="text" id="name" placeholder="Consumer key" class="span4" name="consumer_key" value="<?=htmlspecialchars(\Idno\Core\site()->config()->twitter['consumer_key'])?>" >
+                    <input type="text" id="name" placeholder="Consumer key" class="span6" name="consumer_key" value="<?=htmlspecialchars(\Idno\Core\site()->config()->twitter['consumer_key'])?>" >
                 </div>
             </div>
             <div class="control-group">
                 <label class="control-label" for="name">API secret</label>
                 <div class="controls">
-                    <input type="text" id="name" placeholder="Consumer secret" class="span4" name="consumer_secret" value="<?=htmlspecialchars(\Idno\Core\site()->config()->twitter['consumer_secret'])?>" >
+                    <input type="text" id="name" placeholder="Consumer secret" class="span6" name="consumer_secret" value="<?=htmlspecialchars(\Idno\Core\site()->config()->twitter['consumer_secret'])?>" >
                 </div>
                 	            </div>
           <div class="control-group">
 	          <p>
-                        After the Twitter application is configured, you must enable it under Plugins.
+                        After the Twitter application is configured, you must connect under account Settings.
                     </p>
 
           </div>  
