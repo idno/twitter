@@ -18,7 +18,7 @@
                 /*if ($twitter = \Idno\Core\site()->plugins()->get('Twitter')) {
                     $oauth_url = $twitter->getAuthURL();
                 }*/
-                $oauth_url = \Idno\Core\site()->config()->getURL() . 'twitter/auth';
+                $oauth_url = \Idno\Core\site()->config()->getDisplayURL() . 'twitter/auth';
                 $t = \Idno\Core\site()->template();
                 $body = $t->__(array('oauth_url' => $oauth_url))->draw('account/twitter');
                 $t->__(array('title' => 'Twitter', 'body' => $body))->drawPage();

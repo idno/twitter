@@ -1,9 +1,9 @@
 <?php
 
     if (empty(\Idno\Core\site()->session()->currentUser()->twitter)) {
-        $login_url = \Idno\Core\site()->config()->getURL() . 'twitter/auth';
+        $login_url = \Idno\Core\site()->config()->getDisplayURL() . 'twitter/auth';
     } else {
-        $login_url = \Idno\Core\site()->config()->getURL() . 'twitter/deauth';
+        $login_url = \Idno\Core\site()->config()->getDisplayURL() . 'twitter/deauth';
     }
 
 ?>
