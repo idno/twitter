@@ -33,9 +33,11 @@
                 }, array('note', 'article', 'image', 'media', 'rsvp'));
 
                 if ($this->hasTwitter()) {
-                    if (is_array(\Idno\Core\site()->session()->currentUser()->twitter) && !array_key_exists('user_token', \Idno\Core\site()->session()->currentUser()->twitter)) {
+                    if (is_array(\Idno\Core\site()->session()->currentUser()->twitter)) {
                         foreach(\Idno\Core\site()->session()->currentUser()->twitter as $username => $details) {
-                            \Idno\Core\site()->syndication()->registerServiceAccount('twitter', $username, $username);
+                            if (!in_array($username, ['user_token','user_secret','screen_name'])) {
+                                \Idno\Core\site()->syndication()->registerServiceAccount('twitter', $username, $username);
+                            }
                         }
                     }
                 }
@@ -271,7 +273,9 @@
                 if (!$twitterAPI) {
                     return '';
                 }
-                $code       = $twitterAPI->request('POST', $twitterAPI->url('oauth/request_token', ''), array('oauth_callback' => \Idno\Core\site()->config()->url . 'twitter/callback', 'x_auth_access_type' => 'write'));
+                $code       = $twitterAPI->request('POST', $twitterAPI->url('oauth/request_token', ''), array('oauth_callback' => \Idno\Core\site()->config()->getDisplayURL() . 'twitter/callback', 'x_auth_access_type' => 'write'));
+                error_log("Code: " . $code);
+                error_log("Twitter response: " . var_export($twitterAPI->response,true));
                 if ($code == 200) {
                     $oauth = $twitterAPI->extract_params($twitterAPI->response['response']);
                     \Idno\Core\site()->session()->set('oauth', $oauth); // Save OAuth to the session
@@ -301,8 +305,6 @@
                     );
                     if (!empty($username) && !empty(\Idno\Core\site()->session()->currentUser()->twitter[$username])) {
                         $params = array_merge($params, \Idno\Core\site()->session()->currentUser()->twitter[$username]);
-                    } else if (!empty(\Idno\Core\site()->session()->currentUser()->twitter['user_token'])) {
-                        $params = array_merge($params, \Idno\Core\site()->session()->currentUser()->twitter);
                     }
 
                     return new \tmhOAuth($params);
@@ -321,6 +323,17 @@
                     return false;
                 }
                 if (!empty(\Idno\Core\site()->session()->currentUser()->twitter)) {
+                    if (is_array(\Idno\Core\site()->session()->currentUser()->twitter)) {
+                        $accounts = 0;
+                        foreach(\Idno\Core\site()->session()->currentUser()->twitter as $username => $value) {
+                            if ($username != 'user_token') {
+                                $accounts++;
+                            }
+                        }
+                        if ($accounts > 0) {
+                            return true;
+                        }
+                    }
                     return true;
                 }
 
