@@ -17,7 +17,17 @@
                 $this->gatekeeper(); // Logged-in users only
                 if ($twitter = \Idno\Core\site()->plugins()->get('Twitter')) {
                     if ($user = \Idno\Core\site()->session()->currentUser()) {
-                        $user->twitter = false;
+                        if ($remove = $this->getInput('remove')) {
+                            if (is_array($user->twitter)) {
+                                if (array_key_exists($remove, $user->twitter)) {
+                                    unset($user->twitter[$remove]);
+                                }
+                            } else {
+                                $user->twitter = false;
+                            }
+                        } else {
+                            $user->twitter = false;
+                        }
                         $user->save();
                         \Idno\Core\site()->session()->refreshSessionUser($user);
                         if (!empty($user->link_callback)) {
