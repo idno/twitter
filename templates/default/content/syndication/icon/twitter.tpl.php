@@ -1,1 +1,1 @@
-<i class="icon-twitter"></i>
+<i class="icon-twttr"></i>

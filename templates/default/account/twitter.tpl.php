@@ -58,7 +58,7 @@
                           </p>
 
 
-						<div class="social">
+						<div class="social span6">
                           <p>
                               <input type="hidden" name="remove" value="1" />
                               <button type="submit" class="connect tw connected">Disconnect Twitter</button>
@@ -93,12 +93,13 @@
 
                                                 ?>
 
-                                                <div class="social">
+                                                <div class="social span6">
                                                 <p>
                                                     <input type="hidden" name="remove" value="<?= $account['username'] ?>"/>
                                                     <button type="submit"
                                                             class="connect tw connected">@<?= $account['username'] ?> (Disconnect)</button>
                                                 </p>
+                                                </div>
                                             <?php
 
                                             }
@@ -106,7 +107,7 @@
                                         }
 
                                     ?>
-                                                </div>
+                                                
                           <p>
                                         <a href="<?= $vars['oauth_url'] ?>" class=""><icon class="icon-plus"></icon> Add another Twitter account</a>
                                     </p>
