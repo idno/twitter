@@ -39,6 +39,9 @@
                                 \Idno\Core\site()->syndication()->registerServiceAccount('twitter', $username, $username);
                             }
                         }
+                        if (array_key_exists('user_token', \Idno\Core\site()->session()->currentUser()->twitter)) {
+                            \Idno\Core\site()->syndication()->registerServiceAccount('twitter', \Idno\Core\site()->session()->currentUser()->twitter['screen_name'], \Idno\Core\site()->session()->currentUser()->twitter['screen_name']);
+                        }
                     }
                 }
 
@@ -305,6 +308,9 @@
                     );
                     if (!empty($username) && !empty(\Idno\Core\site()->session()->currentUser()->twitter[$username])) {
                         $params = array_merge($params, \Idno\Core\site()->session()->currentUser()->twitter[$username]);
+                    } else if (!empty(\Idno\Core\site()->session()->currentUser()->twitter['user_token']) && ($username == \Idno\Core\site()->session()->currentUser()->twitter['screen_name'] || empty($username))) {
+                        $params['user_token'] = \Idno\Core\site()->session()->currentUser()->twitter['user_token'];
+                        $params['screen_name'] = \Idno\Core\site()->session()->currentUser()->twitter['screen_name'];
                     }
 
                     return new \tmhOAuth($params);
