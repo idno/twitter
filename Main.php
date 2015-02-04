@@ -15,7 +15,7 @@
                 \Idno\Core\site()->addPageHandler('twitter/callback', '\IdnoPlugins\Twitter\Pages\Callback');
                 // Register admin settings
                 \Idno\Core\site()->addPageHandler('admin/twitter', '\IdnoPlugins\Twitter\Pages\Admin');
-                // Register settings page
+                // Register settings pagee
                 \Idno\Core\site()->addPageHandler('account/twitter', '\IdnoPlugins\Twitter\Pages\Account');
 
                 /** Template extensions */
@@ -73,8 +73,6 @@
                         $count_status = preg_replace('/((ht|f)tps?:\/\/[^\s\r\n\t<>"\'\(\)]+)/i', '12345678901234567890123', $status);
 
                         $count_status = trim($count_status);
-
-                        site()->logging()->log($status . ': ' . mb_strlen($count_status) . ' characters');
 
                         if (mb_strlen($count_status) > 140) {
                             $count_status = substr($count_status, 0, 115);
