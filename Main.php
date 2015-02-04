@@ -74,7 +74,7 @@
 
                         $count_status = trim($count_status);
 
-                        error_log($status . ': ' . mb_strlen($count_status) . ' characters');
+                        site()->logging()->log($status . ': ' . mb_strlen($count_status) . ' characters');
 
                         if (mb_strlen($count_status) > 140) {
                             $count_status = substr($count_status, 0, 115);
@@ -120,7 +120,12 @@
                                 if (!empty($json->id_str)) {
                                     $object->setPosseLink('twitter', 'https://twitter.com/' . $json->user->screen_name . '/status/' . $json->id_str, '@' . $json->user->screen_name);
                                     $object->save();
+                                } else {
+                                    site()->logging()->log("Nothing was posted to Twitter: " . var_export($json,true));
+                                    site()->logging()->log("Twitter tokens: " . var_export(\Idno\Core\site()->session()->currentUser()->twitter,true));
                                 }
+                            } else {
+                                site()->logging()->log("Bad JSON from Twitter: " . var_export($json,true));
                             }
                         }
                     }
@@ -152,7 +157,11 @@
                                 if (!empty($json->id_str)) {
                                     $object->setPosseLink('twitter', 'https://twitter.com/' . $json->user->screen_name . '/status/' . $json->id_str, '@' . $json->user->screen_name);
                                     $object->save();
+                                }  else {
+                                    site()->logging()->log("Nothing was posted to Twitter: " . var_export($json,true));
                                 }
+                            } else {
+                                site()->logging()->log("Bad JSON from Twitter: " . var_export($json,true));
                             }
                         }
 
@@ -189,7 +198,11 @@
                                 if (!empty($json->id_str)) {
                                     $object->setPosseLink('twitter', 'https://twitter.com/' . $json->user->screen_name . '/status/' . $json->id_str, '@' . $json->user->screen_name);
                                     $object->save();
+                                } else {
+                                    site()->logging()->log("Nothing was posted to Twitter: " . var_export($json,true));
                                 }
+                            } else {
+                                site()->logging()->log("Bad JSON from Twitter: " . var_export($json,true));
                             }
                         }
 
@@ -242,7 +255,7 @@
                         try {
                             $response = $twitterAPI->request('POST', $twitterAPI->url('1.1/statuses/update_with_media'), $params, true, true);
                         } catch (\Exception $e) {
-                            error_log($e);
+                            site()->logging()->log($e);
                         }
                         /*$code = $twitterAPI->request( 'POST','https://upload.twitter.com/1.1/statuses/update_with_media',
                             $params,
@@ -257,7 +270,11 @@
                                 if (!empty($json->id_str)) {
                                     $object->setPosseLink('twitter', 'https://twitter.com/' . $json->user->screen_name . '/status/' . $json->id_str, '@' . $json->user->screen_name);
                                     $object->save();
+                                } else {
+                                    site()->logging()->log("Nothing was posted to Twitter: " . var_export($json,true));
                                 }
+                            } else {
+                                site()->logging()->log("Bad JSON from Twitter: " . var_export($json,true));
                             }
                         }
 
@@ -277,8 +294,6 @@
                     return '';
                 }
                 $code       = $twitterAPI->request('POST', $twitterAPI->url('oauth/request_token', ''), array('oauth_callback' => \Idno\Core\site()->config()->getDisplayURL() . 'twitter/callback', 'x_auth_access_type' => 'write'));
-                error_log("Code: " . $code);
-                error_log("Twitter response: " . var_export($twitterAPI->response,true));
                 if ($code == 200) {
                     $oauth = $twitterAPI->extract_params($twitterAPI->response['response']);
                     \Idno\Core\site()->session()->set('oauth', $oauth); // Save OAuth to the session
@@ -310,6 +325,7 @@
                         $params = array_merge($params, \Idno\Core\site()->session()->currentUser()->twitter[$username]);
                     } else if (!empty(\Idno\Core\site()->session()->currentUser()->twitter['user_token']) && ($username == \Idno\Core\site()->session()->currentUser()->twitter['screen_name'] || empty($username))) {
                         $params['user_token'] = \Idno\Core\site()->session()->currentUser()->twitter['user_token'];
+                        $params['user_secret'] = \Idno\Core\site()->session()->currentUser()->twitter['user_secret'];
                         $params['screen_name'] = \Idno\Core\site()->session()->currentUser()->twitter['screen_name'];
                     }
 
