@@ -108,7 +108,7 @@
                         if (!empty($matches[0])) {
                             foreach ($matches[0] as $match) {
                                 if (parse_url($match, PHP_URL_HOST) == 'twitter.com') {
-                                    preg_match('/[0-9]+/', $match, $status_matches);
+                                    preg_match('/[0-9]{8,}/', $match, $status_matches);
                                     $params['in_reply_to_status_id'] = $status_matches[0];
                                 }
                             }
