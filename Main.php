@@ -121,11 +121,11 @@
                                     $object->setPosseLink('twitter', 'https://twitter.com/' . $json->user->screen_name . '/status/' . $json->id_str, '@' . $json->user->screen_name);
                                     $object->save();
                                 } else {
-                                    site()->logging()->log("Nothing was posted to Twitter: " . var_export($json,true));
-                                    site()->logging()->log("Twitter tokens: " . var_export(\Idno\Core\site()->session()->currentUser()->twitter,true));
+                                    \Idno\Core\site()->logging()->log("Nothing was posted to Twitter: " . var_export($json,true));
+                                    \Idno\Core\site()->logging()->log("Twitter tokens: " . var_export(\Idno\Core\site()->session()->currentUser()->twitter,true));
                                 }
                             } else {
-                                site()->logging()->log("Bad JSON from Twitter: " . var_export($json,true));
+                                \Idno\Core\site()->logging()->log("Bad JSON from Twitter: " . var_export($json,true));
                             }
                         }
                     }
@@ -158,10 +158,10 @@
                                     $object->setPosseLink('twitter', 'https://twitter.com/' . $json->user->screen_name . '/status/' . $json->id_str, '@' . $json->user->screen_name);
                                     $object->save();
                                 }  else {
-                                    site()->logging()->log("Nothing was posted to Twitter: " . var_export($json,true));
+                                    \Idno\Core\site()->logging()->log("Nothing was posted to Twitter: " . var_export($json,true));
                                 }
                             } else {
-                                site()->logging()->log("Bad JSON from Twitter: " . var_export($json,true));
+                                \Idno\Core\site()->logging()->log("Bad JSON from Twitter: " . var_export($json,true));
                             }
                         }
 
@@ -199,10 +199,10 @@
                                     $object->setPosseLink('twitter', 'https://twitter.com/' . $json->user->screen_name . '/status/' . $json->id_str, '@' . $json->user->screen_name);
                                     $object->save();
                                 } else {
-                                    site()->logging()->log("Nothing was posted to Twitter: " . var_export($json,true));
+                                    \Idno\Core\site()->logging()->log("Nothing was posted to Twitter: " . var_export($json,true));
                                 }
                             } else {
-                                site()->logging()->log("Bad JSON from Twitter: " . var_export($json,true));
+                                \Idno\Core\site()->logging()->log("Bad JSON from Twitter: " . var_export($json,true));
                             }
                         }
 
@@ -255,7 +255,7 @@
                         try {
                             $response = $twitterAPI->request('POST', $twitterAPI->url('1.1/statuses/update_with_media'), $params, true, true);
                         } catch (\Exception $e) {
-                            site()->logging()->log($e);
+                            \Idno\Core\site()->logging()->log($e);
                         }
                         /*$code = $twitterAPI->request( 'POST','https://upload.twitter.com/1.1/statuses/update_with_media',
                             $params,
@@ -271,10 +271,10 @@
                                     $object->setPosseLink('twitter', 'https://twitter.com/' . $json->user->screen_name . '/status/' . $json->id_str, '@' . $json->user->screen_name);
                                     $object->save();
                                 } else {
-                                    site()->logging()->log("Nothing was posted to Twitter: " . var_export($json,true));
+                                    \Idno\Core\site()->logging()->log("Nothing was posted to Twitter: " . var_export($json,true));
                                 }
                             } else {
-                                site()->logging()->log("Bad JSON from Twitter: " . var_export($json,true));
+                                \Idno\Core\site()->logging()->log("Bad JSON from Twitter: " . var_export($json,true));
                             }
                         }
 
