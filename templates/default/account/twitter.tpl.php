@@ -1,6 +1,6 @@
 <div class="row">
 
-    <div class="span10 offset1">
+    <div class="col-md-10 col-md-offset-1">
         <?=$this->draw('account/menu')?>
         <h1>Twitter</h1>
 
@@ -8,7 +8,7 @@
 
 </div>
 <div class="row">
-    <div class="span10 offset1">
+    <div class="col-md-10 col-md-offset-1">
     <?php
 
             if (!empty(\Idno\Core\site()->config()->twitter['consumer_key']) && !empty(\Idno\Core\site()->config()->twitter['consumer_secret'])) {
@@ -23,17 +23,18 @@
                 <div class="controls-config">
 
 	                <div class="row">
-	                <div class="span6">
+	                <div class="col-md-7">
                     <p>
                         Easily share updates, posts, and pictures to Twitter. </p>
-                        <p>
+                    <p>
 	                        With Twitter connected, you can cross-post content that you publish publicly on your site. 
-                    	</p>
+                    </p>
 
                     
-                    <div class="social span6">
+                    <div class="social">
 				     <p>
-                     <a href="<?= $vars['oauth_url'] ?>" class="connect tw">Connect Twitter</a>
+                     <a href="<?= $vars['oauth_url'] ?>" class="tw connect"><i class="fa fa-twitter"></i>
+ Connect Twitter</a>
                      </p>
 					</div>
 					
@@ -51,17 +52,18 @@
                   <div class="control-group">
                       <div class="controls-config">
 	                    <div class="row">
-						<div class="span6">
+						<div class="col-md-7">
                           <p>
                               Your account is currently connected to Twitter. Public content that you publish here
                               can be cross-posted to your Twitter account.
                           </p>
 
 
-						<div class="social span6">
+						<div class="social">
                           <p>
-                              <input type="hidden" name="remove" value="1" />
-                              <button type="submit" class="connect tw connected">Disconnect Twitter</button>
+                              <input type="hidden" name="remove" value="1" class="form-control" />
+                              <button type="submit" class="tw connect connected"><i class="fa fa-twitter"></i>
+ Disconnect Twitter</button>
                           </p>
 						</div>
                           
@@ -79,7 +81,7 @@
               		<div class="control-group">
                       <div class="controls-config">
 	                    <div class="row">
-						<div class="span6">
+						<div class="col-md-7">
                           <p>
 							You have connected the below accounts to Twitter. Public content that you publish here
                               can be cross-posted to your Twitter account.
@@ -93,11 +95,12 @@
 
                                                 ?>
 
-                                                <div class="social span6">
+                                                <div class="social">
                                                 <p>
-                                                    <input type="hidden" name="remove" value="<?= $account['username'] ?>"/>
+                                                    <input type="hidden" name="remove" class="form-control" value="<?= $account['username'] ?>"/>
                                                     <button type="submit"
-                                                            class="connect tw connected">@<?= $account['username'] ?> (Disconnect)</button>
+                                                            class="tw connect connected"><i class="fa fa-twitter"></i>
+ @<?= $account['username'] ?> (Disconnect)</button>
                                                 </p>
                                                 </div>
                                             <?php
@@ -109,7 +112,7 @@
                                     ?>
                                                 
                           <p>
-                                        <a href="<?= $vars['oauth_url'] ?>" class=""><icon class="icon-plus"></icon> Add another Twitter account</a>
+                                        <a href="<?= $vars['oauth_url'] ?>" class=""><i class="fa fa-plus"></i> Add another Twitter account</a>
                                     </p>
                       </div>
                   </div>
@@ -135,7 +138,7 @@
                                   		<div class="control-group">
                       <div class="controls-config">
 	                    <div class="row">
-						<div class="span6">
+						<div class="col-md-7">
                     <p>
                         Before you can begin connecting to Twitter, you need to set it up.
                     </p>
