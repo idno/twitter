@@ -1,1 +1,2 @@
-<i class="fa fa-twitter"></i>
+<i class="icon-twttr"></i>
+
