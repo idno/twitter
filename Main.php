@@ -94,7 +94,7 @@
 
                                 return '';
                             }, $count_status);
-                            $count_status .= ' .. ' . $object->getURL();
+                            $count_status .= ' .. ' . $object->getSyndicationURL();
                             $status = $count_status;
                         }
 
@@ -145,7 +145,7 @@
                         if (mb_strlen($status) > 110) { // Trim status down if required
                             $status = substr($status, 0, 106) . ' ...';
                         }
-                        $status .= ' ' . $object->getURL();
+                        $status .= ' ' . $object->getSyndicationURL();
                         $params = array(
                             'status' => $status
                         );
@@ -171,6 +171,7 @@
                 // Push "articles" and "rsvps" to Twitter
                 \Idno\Core\site()->addEventHook('post/article/twitter', $article_handler);
                 \Idno\Core\site()->addEventHook('post/rsvp/twitter', $article_handler);
+                \Idno\Core\site()->addEventHook('post/bookmark/twitter', $article_handler);
 
                 // Push "media" to Twitter
                 \Idno\Core\site()->addEventHook('post/media/twitter', function (\Idno\Core\Event $event) {
