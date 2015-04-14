@@ -30,7 +30,7 @@
 
                 \Idno\Core\site()->syndication()->registerService('twitter', function () {
                     return $this->hasTwitter();
-                }, array('note', 'article', 'image', 'media', 'rsvp'));
+                }, array('note', 'article', 'image', 'media', 'rsvp', 'bookmark'));
 
                 if ($this->hasTwitter()) {
                     if (is_array(\Idno\Core\site()->session()->currentUser()->twitter)) {
