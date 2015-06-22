@@ -45,6 +45,22 @@
                     }
                 }
 
+		// Activate syndication automatically, if replying to twitter
+		\Idno\Core\site()->addEventHook('syndication/selected/twitter', function (\Idno\Core\Event $event) {
+		    $eventdata = $event->data();
+		    
+		    if (!empty($eventdata['reply-to'])) {
+			$replyto = $eventdata['reply-to'];
+			if (!is_array($replyto))
+			    $replyto = [$replyto];
+			
+			foreach ($replyto as $url) {
+			    if (strpos(parse_url($url)['host'], 'twitter.com')!==false)
+				    $event->setResponse(true);
+			}
+		    }
+		});
+		
                 // Push "notes" to Twitter
                 \Idno\Core\site()->addEventHook('post/note/twitter', function (\Idno\Core\Event $event) {
                     $eventdata = $event->data();
