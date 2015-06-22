@@ -243,7 +243,7 @@
                                     $media    = '';
                                     $filename = tempnam(sys_get_temp_dir(), 'idnotwitter');
                                     file_put_contents($filename, $bytes);
-                                    $media .= "@{$filename};type=" . $attachment['mime_type'] . ';filename=' . $attachment['filename'];
+                                    $media .= "@{$filename};type=" . $attachment['mime-type'] . ';filename=' . $attachment['filename'];
                                 }
                             }
                         }
