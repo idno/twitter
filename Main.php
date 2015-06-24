@@ -254,26 +254,37 @@
                         }
 
                         if (!empty($attachments)) {
-                            foreach ($attachments as $attachment) {
-                                if ($bytes = \Idno\Entities\File::getFileDataFromAttachment($attachment)) {
-                                    $media    = '';
-                                    $filename = tempnam(sys_get_temp_dir(), 'idnotwitter');
-                                    file_put_contents($filename, $bytes);
-                                    $media .= "@{$filename};type=" . $attachment['mime-type'] . ';filename=' . $attachment['filename'];
+                        foreach ($attachments as $attachment) {
+                            if ($bytes = \Idno\Entities\File::getFileDataFromAttachment($attachment)) {
+                                $media = array();
+                                $filename = tempnam(sys_get_temp_dir(), 'idnotwitter');
+                                file_put_contents($filename, $bytes);
+                                $media['media_data'] = base64_encode(file_get_contents($filename));
+                                $params = $media;
+                                $response = $twitterAPI->request('POST', ('https://upload.twitter.com/1.1/media/upload.json'), $params, true, true);
+                                \Idno\Core\site()->logging()->log($response);
+                                $json = json_decode($twitterAPI->response['response']);
+                                if (isset($json->media_id_string)) {
+                                    $media_id[] = $json->media_id_string;
+                                    error_log("Twitter media_id : " . $json->media_id);
+                                } else {
+                                    \Idno\Core\site()->session()->addMessage("We couldn't upload photo to Twitter, check its filesize: max 5mb.");
                                 }
                             }
                         }
+                    }
 
-                        $params = array(
-                            'status'  => $status,
-                            'media[]' => $media
-                        );
-
+                    if (!empty($media_id)) {
+                        $id = implode(',', $media_id);
+                        $params = array('status' => $status,
+                            'media_ids' => "{$id}");
                         try {
-                            $response = $twitterAPI->request('POST', $twitterAPI->url('1.1/statuses/update_with_media'), $params, true, true);
+                            $response = $twitterAPI->request('POST', ('https://api.twitter.com/1.1/statuses/update.json'), $params, true, false);
+                            \Idno\Core\site()->logging()->log("JSON from Twitter: " . var_export($twitterAPI->response['response'], true));
                         } catch (\Exception $e) {
                             \Idno\Core\site()->logging()->log($e);
                         }
+                    }
                         /*$code = $twitterAPI->request( 'POST','https://upload.twitter.com/1.1/statuses/update_with_media',
                             $params,
                             true, // use auth
