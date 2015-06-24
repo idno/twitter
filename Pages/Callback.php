@@ -40,7 +40,7 @@
                             \Idno\Core\site()->session()->addMessage('Your Twitter credentials were saved.');
                         }
                         else {
-                            \Idno\Core\site()->session()->addMessage('Your Twitter credentials could not be saved.');
+                            \Idno\Core\site()->session()->addErrorMessage('Your Twitter credentials could not be saved.');
                         }
 
                         if (!empty($_SESSION['onboarding_passthrough'])) {
