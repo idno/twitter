@@ -10,7 +10,7 @@
 <div class="row">
     <div class="col-md-10 col-md-offset-1">
         <form action="<?=\Idno\Core\site()->config()->getDisplayURL()?>admin/twitter/" class="form-horizontal" method="post">
-            <div class="control-group">
+            <div class="controls-group">
                 <div class="controls-config">
                     <p>
                         To begin using Twitter, <a href="https://dev.twitter.com/apps" target="_blank">create a new application in
@@ -24,6 +24,7 @@
 
                 </div>
             </div>
+ 
                         
             <div class="controls-group">
 	                <p>
@@ -39,7 +40,8 @@
 
                     <input type="text" id="api-secret" placeholder="Consumer secret" class="form-control" name="consumer_secret" value="<?=htmlspecialchars(\Idno\Core\site()->config()->twitter['consumer_secret'])?>" >
    
-            </div>     	            
+            </div>   
+            
           <div class="controls-group">
 	          <p>
                         After the Twitter application is configured, site users must authenticate their Twitter account under Settings.

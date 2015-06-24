@@ -33,7 +33,7 @@
                     
                     <div class="social">
 				     <p>
-                     <a href="<?= $vars['oauth_url'] ?>" class="connect tw">
+                     <a href="<?= $vars['oauth_url'] ?>" class="tw connect"><i class="fa fa-twitter"></i>
  Connect Twitter</a>
                      </p>
 					</div>
@@ -61,8 +61,9 @@
 
 						<div class="social">
                           <p>
-                              <input type="hidden" name="remove" value="1" />
-                              <button type="submit" class="connect tw connected">Disconnect Twitter</button>
+                              <input type="hidden" name="remove" value="1" class="form-control" />
+                              <button type="submit" class="tw connect connected"><i class="fa fa-twitter"></i>
+ Disconnect Twitter</button>
                           </p>
 						</div>
                           
@@ -98,7 +99,7 @@
                                                 <p>
                                                     <input type="hidden" name="remove" class="form-control" value="<?= $account['username'] ?>"/>
                                                     <button type="submit"
-                                                            class="connect tw connected">
+                                                            class="tw connect connected"><i class="fa fa-twitter"></i>
  @<?= $account['username'] ?> (Disconnect)</button>
                                                 </p>
                                                 </div>
