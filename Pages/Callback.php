@@ -12,7 +12,7 @@
         class Callback extends \Idno\Common\Page
         {
 
-            function get()
+            function get($params = array())
             {
                 $this->gatekeeper(); // Logged-in users only
                 if ($token = $this->getInput('oauth_token')) {
