@@ -90,21 +90,19 @@
 
                         $count_status = trim($count_status);
 
-                        \Idno\Core\site()->logging()->log($status . ': ' . mb_strlen($count_status) . ' characters');
-
                         if (mb_strlen($count_status) > 140) {
-                            $count_status = substr($count_status, 0, 115);
+                            $count_status = substr($count_status, 0, 117);
                             if ($count_status[mb_strlen($count_status) - 1] != ' ') {
                                 $count_status = substr($count_status, 0, strrpos($count_status, ' '));
                             }
                             $count_status = preg_replace_callback('/12345678901234567890123/', function ($callback) {
-                                global $status_update_url_num; // Ugh
-                                global $url_matches; // Ugh ugh
+                                global $status_update_url_num; 
+                                global $status_url_matches; 
                                 if (empty($status_update_url_num)) {
                                     $status_update_url_num = 0;
                                 }
-                                if (!empty($url_matches[0][$status_update_url_num])) {
-                                    return $url_matches[0][$status_update_url_num];
+                                if (!empty($status_url_matches[0][$status_update_url_num])) {
+                                    return $status_url_matches[0][$status_update_url_num];
                                 }
                                 $status_update_url_num++;
 
