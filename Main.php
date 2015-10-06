@@ -45,6 +45,22 @@
                     }
                 }
 
+		// Activate syndication automatically, if replying to twitter
+		\Idno\Core\site()->addEventHook('syndication/selected/twitter', function (\Idno\Core\Event $event) {
+		    $eventdata = $event->data();
+		    
+		    if (!empty($eventdata['reply-to'])) {
+			$replyto = $eventdata['reply-to'];
+			if (!is_array($replyto))
+			    $replyto = [$replyto];
+			
+			foreach ($replyto as $url) {
+			    if (strpos(parse_url($url)['host'], 'twitter.com')!==false)
+				    $event->setResponse(true);
+			}
+		    }
+		});
+		
                 // Push "notes" to Twitter
                 \Idno\Core\site()->addEventHook('post/note/twitter', function (\Idno\Core\Event $event) {
                     $eventdata = $event->data();
@@ -74,21 +90,19 @@
 
                         $count_status = trim($count_status);
 
-                        \Idno\Core\site()->logging()->log($status . ': ' . mb_strlen($count_status) . ' characters');
-
                         if (mb_strlen($count_status) > 140) {
-                            $count_status = substr($count_status, 0, 115);
+                            $count_status = substr($count_status, 0, 117);
                             if ($count_status[mb_strlen($count_status) - 1] != ' ') {
                                 $count_status = substr($count_status, 0, strrpos($count_status, ' '));
                             }
                             $count_status = preg_replace_callback('/12345678901234567890123/', function ($callback) {
-                                global $status_update_url_num; // Ugh
-                                global $url_matches; // Ugh ugh
+                                global $status_update_url_num; 
+                                global $status_url_matches; 
                                 if (empty($status_update_url_num)) {
                                     $status_update_url_num = 0;
                                 }
-                                if (!empty($url_matches[0][$status_update_url_num])) {
-                                    return $url_matches[0][$status_update_url_num];
+                                if (!empty($status_url_matches[0][$status_update_url_num])) {
+                                    return $status_url_matches[0][$status_update_url_num];
                                 }
                                 $status_update_url_num++;
 
@@ -238,26 +252,37 @@
                         }
 
                         if (!empty($attachments)) {
-                            foreach ($attachments as $attachment) {
-                                if ($bytes = \Idno\Entities\File::getFileDataFromAttachment($attachment)) {
-                                    $media    = '';
-                                    $filename = tempnam(sys_get_temp_dir(), 'idnotwitter');
-                                    file_put_contents($filename, $bytes);
-                                    $media .= "@{$filename};type=" . $attachment['mime-type'] . ';filename=' . $attachment['filename'];
+                        foreach ($attachments as $attachment) {
+                            if ($bytes = \Idno\Entities\File::getFileDataFromAttachment($attachment)) {
+                                $media = array();
+                                $filename = tempnam(sys_get_temp_dir(), 'idnotwitter');
+                                file_put_contents($filename, $bytes);
+                                $media['media_data'] = base64_encode(file_get_contents($filename));
+                                $params = $media;
+                                $response = $twitterAPI->request('POST', ('https://upload.twitter.com/1.1/media/upload.json'), $params, true, true);
+                                \Idno\Core\site()->logging()->log($response);
+                                $json = json_decode($twitterAPI->response['response']);
+                                if (isset($json->media_id_string)) {
+                                    $media_id[] = $json->media_id_string;
+                                    error_log("Twitter media_id : " . $json->media_id);
+                                } else {
+                                    \Idno\Core\site()->session()->addMessage("We couldn't upload photo to Twitter, check its filesize: max 5mb.");
                                 }
                             }
                         }
+                    }
 
-                        $params = array(
-                            'status'  => $status,
-                            'media[]' => $media
-                        );
-
+                    if (!empty($media_id)) {
+                        $id = implode(',', $media_id);
+                        $params = array('status' => $status,
+                            'media_ids' => "{$id}");
                         try {
-                            $response = $twitterAPI->request('POST', $twitterAPI->url('1.1/statuses/update_with_media'), $params, true, true);
+                            $response = $twitterAPI->request('POST', ('https://api.twitter.com/1.1/statuses/update.json'), $params, true, false);
+                            \Idno\Core\site()->logging()->log("JSON from Twitter: " . var_export($twitterAPI->response['response'], true));
                         } catch (\Exception $e) {
                             \Idno\Core\site()->logging()->log($e);
                         }
+                    }
                         /*$code = $twitterAPI->request( 'POST','https://upload.twitter.com/1.1/statuses/update_with_media',
                             $params,
                             true, // use auth
