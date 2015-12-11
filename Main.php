@@ -115,7 +115,7 @@
                         $status = preg_replace('/[ ]{2,}/', ' ', $status);
 
                         $params = array(
-                            'status' => $status
+                            'status' => trim($status)
                         );
 
                         // Find any Twitter status IDs in case we need to mark this as a reply to them
