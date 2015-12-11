@@ -266,7 +266,12 @@
                                     $media_id[] = $json->media_id_string;
                                     error_log("Twitter media_id : " . $json->media_id);
                                 } else {
-                                    \Idno\Core\site()->session()->addMessage("We couldn't upload photo to Twitter, check its filesize: max 5mb.");
+                                	/*{"errors":[{"message":"Sorry, that page does not exist","code":34}]}*/
+                                	if (isset($json->errors)){
+                                		$message[] = $json->errors;
+                                		$twitter_error = $message['message']." (code ".$message['code'].")"
+                                	}
+                                    \Idno\Core\site()->session()->addMessage("We couldn't upload photo to Twitter. Twitter response: {$twitter_error}.");
                                 }
                             }
                         }
