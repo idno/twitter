@@ -235,6 +235,9 @@
                             $twitterAPI  = $this->connect();
                         }
                         $status     = $object->getTitle();
+                        if ($status == 'Untitled') {
+                        	$status = '';
+                        }
                         if (mb_strlen($status) > 110) { // Trim status down if required
                             $status = substr($status, 0, 106) . ' ...';
                         }
