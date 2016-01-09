@@ -32,35 +32,38 @@
                     return $this->hasTwitter();
                 }, array('note', 'article', 'image', 'media', 'rsvp', 'bookmark'));
 
-                if ($this->hasTwitter()) {
-                    if (is_array(\Idno\Core\Idno::site()->session()->currentUser()->twitter)) {
-                        foreach(\Idno\Core\Idno::site()->session()->currentUser()->twitter as $username => $details) {
-                            if (!in_array($username, ['user_token','user_secret','screen_name'])) {
-                                \Idno\Core\Idno::site()->syndication()->registerServiceAccount('twitter', $username, $username);
+                \Idno\Core\Idno::site()->addEventHook('user/auth/success', function (\Idno\Core\Event $event) {
+                    if ($this->hasTwitter()) {
+                        $twitter = \Idno\Core\Idno::site()->session()->currentUser()->twitter;
+                        if (is_array($twitter)) {
+                            foreach($twitter as $username => $details) {
+                                if (!in_array($username, ['user_token','user_secret','screen_name'])) {
+                                    \Idno\Core\Idno::site()->syndication()->registerServiceAccount('twitter', $username, $username);
+                                }
+                            }
+                            if (array_key_exists('user_token', $twitter)) {
+                                \Idno\Core\Idno::site()->syndication()->registerServiceAccount('twitter', $twitter['screen_name'], $twitter['screen_name']);
                             }
                         }
-                        if (array_key_exists('user_token', \Idno\Core\Idno::site()->session()->currentUser()->twitter)) {
-                            \Idno\Core\Idno::site()->syndication()->registerServiceAccount('twitter', \Idno\Core\Idno::site()->session()->currentUser()->twitter['screen_name'], \Idno\Core\Idno::site()->session()->currentUser()->twitter['screen_name']);
+                    }
+                });
+
+                // Activate syndication automatically, if replying to twitter
+                \Idno\Core\Idno::site()->addEventHook('syndication/selected/twitter', function (\Idno\Core\Event $event) {
+                    $eventdata = $event->data();
+
+                    if (!empty($eventdata['reply-to'])) {
+                        $replyto = $eventdata['reply-to'];
+                        if (!is_array($replyto))
+                            $replyto = [$replyto];
+
+                        foreach ($replyto as $url) {
+                            if (strpos(parse_url($url)['host'], 'twitter.com')!==false)
+                                $event->setResponse(true);
                         }
                     }
-                }
+                });
 
-		// Activate syndication automatically, if replying to twitter
-		\Idno\Core\Idno::site()->addEventHook('syndication/selected/twitter', function (\Idno\Core\Event $event) {
-		    $eventdata = $event->data();
-		    
-		    if (!empty($eventdata['reply-to'])) {
-			$replyto = $eventdata['reply-to'];
-			if (!is_array($replyto))
-			    $replyto = [$replyto];
-			
-			foreach ($replyto as $url) {
-			    if (strpos(parse_url($url)['host'], 'twitter.com')!==false)
-				    $event->setResponse(true);
-			}
-		    }
-		});
-		
                 // Push "notes" to Twitter
                 \Idno\Core\Idno::site()->addEventHook('post/note/twitter', function (\Idno\Core\Event $event) {
                     $eventdata = $event->data();
@@ -96,8 +99,8 @@
                                 $count_status = substr($count_status, 0, strrpos($count_status, ' '));
                             }
                             $count_status = preg_replace_callback('/12345678901234567890123/', function ($callback) {
-                                global $status_update_url_num; 
-                                global $status_url_matches; 
+                                global $status_update_url_num;
+                                global $status_url_matches;
                                 if (empty($status_update_url_num)) {
                                     $status_update_url_num = 0;
                                 }
