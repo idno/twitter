@@ -135,7 +135,7 @@
                         if (!empty($twitterAPI->response['response'])) {
                             if ($json = json_decode($twitterAPI->response['response'])) {
                                 if (!empty($json->id_str)) {
-                                    $object->setPosseLink('twitter', 'https://twitter.com/' . $json->user->screen_name . '/status/' . $json->id_str, '@' . $json->user->screen_name);
+                                    $object->setPosseLink('twitter', 'https://twitter.com/' . $json->user->screen_name . '/status/' . $json->id_str, '@' . $json->user->screen_name, $json->user->screen_name);
                                     $object->save();
                                 } else {
                                     \Idno\Core\Idno::site()->logging()->log("Nothing was posted to Twitter: " . var_export($json,true));
@@ -172,7 +172,7 @@
                         if (!empty($twitterAPI->response['response'])) {
                             if ($json = json_decode($twitterAPI->response['response'])) {
                                 if (!empty($json->id_str)) {
-                                    $object->setPosseLink('twitter', 'https://twitter.com/' . $json->user->screen_name . '/status/' . $json->id_str, '@' . $json->user->screen_name);
+                                    $object->setPosseLink('twitter', 'https://twitter.com/' . $json->user->screen_name . '/status/' . $json->id_str, '@' . $json->user->screen_name, $json->user->screen_name);
                                     $object->save();
                                 }  else {
                                     \Idno\Core\Idno::site()->logging()->log("Nothing was posted to Twitter: " . var_export($json,true));
@@ -214,7 +214,7 @@
                         if (!empty($twitterAPI->response['response'])) {
                             if ($json = json_decode($twitterAPI->response['response'])) {
                                 if (!empty($json->id_str)) {
-                                    $object->setPosseLink('twitter', 'https://twitter.com/' . $json->user->screen_name . '/status/' . $json->id_str, '@' . $json->user->screen_name);
+                                    $object->setPosseLink('twitter', 'https://twitter.com/' . $json->user->screen_name . '/status/' . $json->id_str, '@' . $json->user->screen_name, $json->user->screen_name);
                                     $object->save();
                                 } else {
                                     \Idno\Core\Idno::site()->logging()->log("Nothing was posted to Twitter: " . var_export($json,true));
@@ -305,7 +305,7 @@
                         if (!empty($twitterAPI->response['response'])) {
                             if ($json = json_decode($twitterAPI->response['response'])) {
                                 if (!empty($json->id_str)) {
-                                    $object->setPosseLink('twitter', 'https://twitter.com/' . $json->user->screen_name . '/status/' . $json->id_str, '@' . $json->user->screen_name);
+                                    $object->setPosseLink('twitter', 'https://twitter.com/' . $json->user->screen_name . '/status/' . $json->id_str, '@' . $json->user->screen_name, $json->user->screen_name);
                                     $object->save();
                                 } else {
                                     \Idno\Core\Idno::site()->logging()->log("Nothing was posted to Twitter: " . var_export($json,true));
