@@ -2,8 +2,18 @@
 
     namespace IdnoPlugins\Twitter {
 
+        use Kylewm\Brevity\Brevity;
+
         class Main extends \Idno\Common\Plugin
         {
+
+            private $brevity;
+
+            function init()
+            {
+                parent::init();
+                $this->brevity = new Brevity();
+            }
 
             function registerPages()
             {
@@ -78,44 +88,18 @@
                         $status      = preg_replace('/<[^\>]*>/', '', $status_full); //strip_tags($status_full);
                         $status      = str_replace("\r", '', $status);
 
+                        // Permalink will be included if the status message is truncated
+                        $permalink = $object->getSyndicationURL();
                         // Add link to original post, if IndieWeb references have been requested
-                        if (!substr_count($status, \Idno\Core\Idno::site()->config()->host) && \Idno\Core\Idno::site()->config()->indieweb_reference) {
-                            $status .= ' ' . $object->getShortURL();
-                        }
+                        $permashortlink = \Idno\Core\Idno::site()->config()->indieweb_reference ? $object->getShortURL() : false;
 
-                        // Get links at this stage
-                        preg_match_all('/((ht|f)tps?:\/\/[^\s\r\n\t<>"\'\(\)]+)/i', $status_full, $matches);
+                        \Idno\Core\Idno::site()->logging()->log("status before shortening: $status");
 
-                        global $url_matches; // ugh
-                        preg_match_all('/((ht|f)tps?:\/\/[^\s\r\n\t<>"\'\(\)]+)/i', $status, $url_matches);
+                        echo "<pre>About to use brevity</pre";
+                        $status = $this->brevity->shorten($status, $permalink, $permashortlink);
+                        echo "<pre>Done using brevity</pre";
 
-                        $count_status = preg_replace('/((ht|f)tps?:\/\/[^\s\r\n\t<>"\'\(\)]+)/i', '12345678901234567890123', $status);
-
-                        $count_status = trim($count_status);
-
-                        if (mb_strlen($count_status) > 140) {
-                            $count_status = substr($count_status, 0, 117);
-                            if ($count_status[mb_strlen($count_status) - 1] != ' ') {
-                                $count_status = substr($count_status, 0, strrpos($count_status, ' '));
-                            }
-                            $count_status = preg_replace_callback('/12345678901234567890123/', function ($callback) {
-                                global $status_update_url_num;
-                                global $status_url_matches;
-                                if (empty($status_update_url_num)) {
-                                    $status_update_url_num = 0;
-                                }
-                                if (!empty($status_url_matches[0][$status_update_url_num])) {
-                                    return $status_url_matches[0][$status_update_url_num];
-                                }
-                                $status_update_url_num++;
-
-                                return '';
-                            }, $count_status);
-                            $count_status .= ' .. ' . $object->getSyndicationURL();
-                            $status = $count_status;
-                        }
-
-                        $status = preg_replace('/[ ]{2,}/', ' ', $status);
+                        \Idno\Core\Idno::site()->logging()->log("status after shortening: $status");
 
                         $params = array(
                             'status' => trim($status)
