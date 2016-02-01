@@ -95,9 +95,7 @@
 
                         \Idno\Core\Idno::site()->logging()->log("status before shortening: $status");
 
-                        echo "<pre>About to use brevity</pre";
                         $status = $this->brevity->shorten($status, $permalink, $permashortlink);
-                        echo "<pre>Done using brevity</pre";
 
                         \Idno\Core\Idno::site()->logging()->log("status after shortening: $status");
 
@@ -106,8 +104,8 @@
                         );
 
                         // Find any Twitter status IDs in case we need to mark this as a reply to them
-                        if (!empty($matches[0])) {
-                            foreach ($matches[0] as $match) {
+                        if (!empty($object->inreplyto)) {
+                            foreach (((array) $object->inreplyto) as $match) {
                                 if (parse_url($match, PHP_URL_HOST) == 'twitter.com') {
                                     preg_match('/[0-9]{8,}/', $match, $status_matches);
                                     $params['in_reply_to_status_id'] = $status_matches[0];
