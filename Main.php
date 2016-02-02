@@ -89,13 +89,10 @@
                         $status      = str_replace("\r", '', $status);
 
                         // Permalink will be included if the status message is truncated
-                        $permalink = $object->getSyndicationURL();
+                        $permalink      = $object->getSyndicationURL();
                         // Add link to original post, if IndieWeb references have been requested
                         $permashortlink = \Idno\Core\Idno::site()->config()->indieweb_reference ? $object->getShortURL() : false;
-
-                        \Idno\Core\Idno::site()->logging()->log("status before shortening: $status");
-
-                        $status = $this->brevity->shorten($status, $permalink, $permashortlink);
+                        $status         = $this->brevity->shorten($status, $permalink, $permashortlink);
 
                         \Idno\Core\Idno::site()->logging()->log("status after shortening: $status");
 
@@ -140,11 +137,8 @@
                         } else {
                             $twitterAPI  = $this->connect();
                         }
-                        $status     = $object->getTitle();
-                        if (mb_strlen($status) > 110) { // Trim status down if required
-                            $status = substr($status, 0, 106) . ' ...';
-                        }
-                        $status .= ' ' . $object->getSyndicationURL();
+
+                        $status = $this->brevity->shorten($object->getTitle(), $object->getSyndicationURL(), false, false, Brevity::FORMAT_ARTICLE);
                         $params = array(
                             'status' => $status
                         );
@@ -176,17 +170,15 @@
                 \Idno\Core\Idno::site()->addEventHook('post/media/twitter', function (\Idno\Core\Event $event) {
                     if ($this->hasTwitter()) {
                         $eventdata = $event->data();
-                        $object     = $eventdata['object'];
+                        $object    = $eventdata['object'];
                         if (!empty($eventdata['syndication_account'])) {
                             $twitterAPI  = $this->connect($eventdata['syndication_account']);
                         } else {
                             $twitterAPI  = $this->connect();
                         }
-                        $status     = $object->getTitle();
-                        if (mb_strlen($status) > 110) { // Trim status down if required
-                            $status = substr($status, 0, 106) . ' ...';
-                        }
-                        $status .= ' ' . $object->getURL();
+
+                        // format as an "article" because we're just tweeting the title, with more content at the original url
+                        $status = $this->brevity->shorten($object->getTitle(), $object->getSyndicationURL(), false, false, Brevity::FORMAT_ARTICLE);
                         $params = array(
                             'status' => $status
                         );
@@ -223,9 +215,7 @@
                         if ($status == 'Untitled') {
                         	$status = '';
                         }
-                        if (mb_strlen($status) > 110) { // Trim status down if required
-                            $status = substr($status, 0, 106) . ' ...';
-                        }
+                        $status     = $this->brevity->shorten($status, $object->getSyndicationURL(), false, false, Brevity::FORMAT_NOTE_WITH_MEDIA);
 
                         // Let's first try getting the thumbnail
                         if (!empty($object->thumbnail_id)) {
