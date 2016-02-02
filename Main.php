@@ -12,6 +12,7 @@
             function init()
             {
                 parent::init();
+                require_once __DIR__ . '/autoloader.php';
                 $this->brevity = new Brevity();
             }
 
