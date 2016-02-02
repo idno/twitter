@@ -63,10 +63,7 @@
                     $eventdata = $event->data();
 
                     if (!empty($eventdata['reply-to'])) {
-                        $replyto = $eventdata['reply-to'];
-                        if (!is_array($replyto))
-                            $replyto = [$replyto];
-
+                        $replyto = (array) $eventdata['reply-to'];
                         foreach ($replyto as $url) {
                             if (strpos(parse_url($url)['host'], 'twitter.com')!==false)
                                 $event->setResponse(true);
@@ -101,12 +98,11 @@
                         );
 
                         // Find any Twitter status IDs in case we need to mark this as a reply to them
-                        if (!empty($object->inreplyto)) {
-                            foreach (((array) $object->inreplyto) as $match) {
-                                if (parse_url($match, PHP_URL_HOST) == 'twitter.com') {
-                                    preg_match('/[0-9]{8,}/', $match, $status_matches);
-                                    $params['in_reply_to_status_id'] = $status_matches[0];
-                                }
+                        $inreplyto = array_merge((array) $object->inreplyto, (array) $object->syndicatedto);
+                        foreach ($inreplyto as $match) {
+                            if (parse_url($match, PHP_URL_HOST) == 'twitter.com') {
+                                preg_match('/[0-9]{8,}/', $match, $status_matches);
+                                $params['in_reply_to_status_id'] = $status_matches[0];
                             }
                         }
 
