@@ -88,6 +88,7 @@
                         $status_full = trim($object->getDescription());
                         $status      = preg_replace('/<[^\>]*>/', '', $status_full); //strip_tags($status_full);
                         $status      = str_replace("\r", '', $status);
+                        $status      = html_entity_decode($status);
 
                         // Permalink will be included if the status message is truncated
                         $permalink = $object->getSyndicationURL();
@@ -146,6 +147,9 @@
                             $status = substr($status, 0, 106) . ' ...';
                         }
                         $status .= ' ' . $object->getSyndicationURL();
+                        
+                        $status = html_entity_decode($status);
+                        
                         $params = array(
                             'status' => $status
                         );
@@ -188,6 +192,9 @@
                             $status = substr($status, 0, 106) . ' ...';
                         }
                         $status .= ' ' . $object->getURL();
+                        
+                        $status = html_entity_decode($status);
+                        
                         $params = array(
                             'status' => $status
                         );
@@ -227,6 +234,8 @@
                         if (mb_strlen($status) > 110) { // Trim status down if required
                             $status = substr($status, 0, 106) . ' ...';
                         }
+                        
+                        $status = html_entity_decode($status);
 
                         // Let's first try getting the thumbnail
                         if (!empty($object->thumbnail_id)) {
