@@ -173,20 +173,11 @@
                         } else {
                             $twitterAPI  = $this->connect();
                         }
-<<<<<<< HEAD
-                        $status     = $object->getTitle();
-                        if (mb_strlen($status) > 110) { // Trim status down if required
-                            $status = substr($status, 0, 106) . ' ...';
-                        }
-                        $status .= ' ' . $object->getURL();
-                        
-                        $status = html_entity_decode($status);
-                        
-=======
 
                         // format as an "article" because we're just tweeting the title, with more content at the original url
                         $status = $this->brevity->shorten($object->getTitle(), $object->getSyndicationURL(), false, false, Brevity::FORMAT_ARTICLE);
->>>>>>> 34fab98950384e9e34a783f99f418755ce7981bf
+			$status = html_entity_decode($status);
+
                         $params = array(
                             'status' => $status
                         );
@@ -223,15 +214,9 @@
                         if ($status == 'Untitled') {
                         	$status = '';
                         }
-<<<<<<< HEAD
-                        if (mb_strlen($status) > 110) { // Trim status down if required
-                            $status = substr($status, 0, 106) . ' ...';
-                        }
-                        
-                        $status = html_entity_decode($status);
-=======
+
                         $status     = $this->brevity->shorten($status, $object->getSyndicationURL(), false, false, Brevity::FORMAT_NOTE_WITH_MEDIA);
->>>>>>> 34fab98950384e9e34a783f99f418755ce7981bf
+                        $status = html_entity_decode($status);
 
                         // Let's first try getting the thumbnail
                         if (!empty($object->thumbnail_id)) {
