@@ -41,7 +41,7 @@
 
                 \Idno\Core\Idno::site()->syndication()->registerService('twitter', function () {
                     return $this->hasTwitter();
-                }, array('note', 'article', 'image', 'media', 'rsvp', 'bookmark'));
+                }, array('note', 'article', 'image', 'media', 'rsvp', 'bookmark', 'like', 'share'));
 
                 \Idno\Core\Idno::site()->addEventHook('user/auth/success', function (\Idno\Core\Event $event) {
                     if ($this->hasTwitter()) {
@@ -64,10 +64,7 @@
                     $eventdata = $event->data();
 
                     if (!empty($eventdata['reply-to'])) {
-                        $replyto = $eventdata['reply-to'];
-                        if (!is_array($replyto))
-                            $replyto = [$replyto];
-
+                        $replyto = (array) $eventdata['reply-to'];
                         foreach ($replyto as $url) {
                             if (strpos(parse_url($url)['host'], 'twitter.com')!==false)
                                 $event->setResponse(true);
@@ -91,13 +88,10 @@
                         $status      = html_entity_decode($status);
 
                         // Permalink will be included if the status message is truncated
-                        $permalink = $object->getSyndicationURL();
+                        $permalink      = $object->getSyndicationURL();
                         // Add link to original post, if IndieWeb references have been requested
                         $permashortlink = \Idno\Core\Idno::site()->config()->indieweb_reference ? $object->getShortURL() : false;
-
-                        \Idno\Core\Idno::site()->logging()->log("status before shortening: $status");
-
-                        $status = $this->brevity->shorten($status, $permalink, $permashortlink);
+                        $status         = $this->brevity->shorten($status, $permalink, $permashortlink);
 
                         \Idno\Core\Idno::site()->logging()->log("status after shortening: $status");
 
@@ -106,20 +100,16 @@
                         );
 
                         // Find any Twitter status IDs in case we need to mark this as a reply to them
-                        if (!empty($object->inreplyto)) {
-                            foreach (((array) $object->inreplyto) as $match) {
-                                if (parse_url($match, PHP_URL_HOST) == 'twitter.com') {
-                                    preg_match('/[0-9]{8,}/', $match, $status_matches);
-                                    $params['in_reply_to_status_id'] = $status_matches[0];
-                                }
-                            }
+                        $inreplytourls = array_merge((array) $object->inreplyto, (array) $object->syndicatedto);
+                        if ($inreplytoid = self::findTwitterStatusId($inreplytourls)) {
+                            $params['in_reply_to_status_id'] = $inreplytoid;
                         }
 
                         $response = $twitterAPI->request('POST', $twitterAPI->url('1.1/statuses/update'), $params);
                         if (!empty($twitterAPI->response['response'])) {
                             if ($json = json_decode($twitterAPI->response['response'])) {
                                 if (!empty($json->id_str)) {
-                                    $object->setPosseLink('twitter', 'https://twitter.com/' . $json->user->screen_name . '/status/' . $json->id_str, '@' . $json->user->screen_name, '', $json->user->screen_name);
+                                    $object->setPosseLink('twitter', 'https://twitter.com/' . $json->user->screen_name . '/status/' . $json->id_str, '@' . $json->user->screen_name, $json->id_str, $json->user->screen_name);
                                     $object->save();
                                 } else {
                                     \Idno\Core\Idno::site()->logging()->log("Nothing was posted to Twitter: " . var_export($json,true));
@@ -142,14 +132,10 @@
                         } else {
                             $twitterAPI  = $this->connect();
                         }
-                        $status     = $object->getTitle();
-                        if (mb_strlen($status) > 110) { // Trim status down if required
-                            $status = substr($status, 0, 106) . ' ...';
-                        }
-                        $status .= ' ' . $object->getSyndicationURL();
-                        
-                        $status = html_entity_decode($status);
-                        
+
+                        $status = $this->brevity->shorten($object->getTitle(), $object->getSyndicationURL(), false, false, Brevity::FORMAT_ARTICLE);
+			$status = html_entity_decode($status);
+
                         $params = array(
                             'status' => $status
                         );
@@ -159,7 +145,7 @@
                         if (!empty($twitterAPI->response['response'])) {
                             if ($json = json_decode($twitterAPI->response['response'])) {
                                 if (!empty($json->id_str)) {
-                                    $object->setPosseLink('twitter', 'https://twitter.com/' . $json->user->screen_name . '/status/' . $json->id_str, '@' . $json->user->screen_name, '', $json->user->screen_name);
+                                    $object->setPosseLink('twitter', 'https://twitter.com/' . $json->user->screen_name . '/status/' . $json->id_str, '@' . $json->user->screen_name, $json->id_str, $json->user->screen_name);
                                     $object->save();
                                 }  else {
                                     \Idno\Core\Idno::site()->logging()->log("Nothing was posted to Twitter: " . var_export($json,true));
@@ -181,12 +167,13 @@
                 \Idno\Core\Idno::site()->addEventHook('post/media/twitter', function (\Idno\Core\Event $event) {
                     if ($this->hasTwitter()) {
                         $eventdata = $event->data();
-                        $object     = $eventdata['object'];
+                        $object    = $eventdata['object'];
                         if (!empty($eventdata['syndication_account'])) {
                             $twitterAPI  = $this->connect($eventdata['syndication_account']);
                         } else {
                             $twitterAPI  = $this->connect();
                         }
+<<<<<<< HEAD
                         $status     = $object->getTitle();
                         if (mb_strlen($status) > 110) { // Trim status down if required
                             $status = substr($status, 0, 106) . ' ...';
@@ -195,6 +182,11 @@
                         
                         $status = html_entity_decode($status);
                         
+=======
+
+                        // format as an "article" because we're just tweeting the title, with more content at the original url
+                        $status = $this->brevity->shorten($object->getTitle(), $object->getSyndicationURL(), false, false, Brevity::FORMAT_ARTICLE);
+>>>>>>> 34fab98950384e9e34a783f99f418755ce7981bf
                         $params = array(
                             'status' => $status
                         );
@@ -204,7 +196,7 @@
                         if (!empty($twitterAPI->response['response'])) {
                             if ($json = json_decode($twitterAPI->response['response'])) {
                                 if (!empty($json->id_str)) {
-                                    $object->setPosseLink('twitter', 'https://twitter.com/' . $json->user->screen_name . '/status/' . $json->id_str, '@' . $json->user->screen_name, '', $json->user->screen_name);
+                                    $object->setPosseLink('twitter', 'https://twitter.com/' . $json->user->screen_name . '/status/' . $json->id_str, '@' . $json->user->screen_name, $json->id_str, $json->user->screen_name);
                                     $object->save();
                                 } else {
                                     \Idno\Core\Idno::site()->logging()->log("Nothing was posted to Twitter: " . var_export($json,true));
@@ -231,11 +223,15 @@
                         if ($status == 'Untitled') {
                         	$status = '';
                         }
+<<<<<<< HEAD
                         if (mb_strlen($status) > 110) { // Trim status down if required
                             $status = substr($status, 0, 106) . ' ...';
                         }
                         
                         $status = html_entity_decode($status);
+=======
+                        $status     = $this->brevity->shorten($status, $object->getSyndicationURL(), false, false, Brevity::FORMAT_NOTE_WITH_MEDIA);
+>>>>>>> 34fab98950384e9e34a783f99f418755ce7981bf
 
                         // Let's first try getting the thumbnail
                         if (!empty($object->thumbnail_id)) {
@@ -297,7 +293,7 @@
                         if (!empty($twitterAPI->response['response'])) {
                             if ($json = json_decode($twitterAPI->response['response'])) {
                                 if (!empty($json->id_str)) {
-                                    $object->setPosseLink('twitter', 'https://twitter.com/' . $json->user->screen_name . '/status/' . $json->id_str, '@' . $json->user->screen_name, '', $json->user->screen_name);
+                                    $object->setPosseLink('twitter', 'https://twitter.com/' . $json->user->screen_name . '/status/' . $json->id_str, '@' . $json->user->screen_name, $json->id_str, $json->user->screen_name);
                                     $object->save();
                                 } else {
                                     \Idno\Core\Idno::site()->logging()->log("Nothing was posted to Twitter: " . var_export($json,true));
@@ -309,6 +305,96 @@
 
                     }
                 });
+
+                // Push "likes" to Twitter
+                \Idno\Core\Idno::site()->addEventHook('post/like/twitter', function (\Idno\Core\Event $event) {
+                    $eventdata = $event->data();
+                    if ($this->hasTwitter()) {
+                        $object      = $eventdata['object'];
+                        if (!empty($eventdata['syndication_account'])) {
+                            $twitterAPI  = $this->connect($eventdata['syndication_account']);
+                        } else {
+                            $twitterAPI  = $this->connect();
+                        }
+
+                        $params = array();
+                        // Find the status ID of the tweet that was liked
+                        $likeofurls = array_merge((array) $object->likeof, (array) $object->syndicatedto);
+                        if ($likeofid = self::findTwitterStatusId($likeofurls)) {
+                            $params['id'] = $likeofid;
+                        }
+                        else {
+                            \Idno\Core\Idno::site()->logging()->log("Could not find a status to like");
+                            return;
+                        }
+
+                        $response = $twitterAPI->request('POST', $twitterAPI->url('1.1/favorites/create'), $params);
+                        if (!empty($twitterAPI->response['response'])) {
+                            if ($json = json_decode($twitterAPI->response['response'])) {
+                                // not much to be done with the result but log it
+                                \Idno\Core\Idno::site()->logging()->log("Successfully posted like to Twitter: " . var_export($json, true));
+                            } else {
+                                \Idno\Core\Idno::site()->logging()->log("Bad JSON response when posting a like to Twitter: " . $twitterAPI->response['response']);
+                            }
+                        }
+                    }
+                });
+
+                // Push "shares" (reposts) to Twitter
+                \Idno\Core\Idno::site()->addEventHook('post/share/twitter', function (\Idno\Core\Event $event) {
+                    $eventdata = $event->data();
+                    if ($this->hasTwitter()) {
+                        $object      = $eventdata['object'];
+                        if (!empty($eventdata['syndication_account'])) {
+                            $twitterAPI  = $this->connect($eventdata['syndication_account']);
+                        } else {
+                            $twitterAPI  = $this->connect();
+                        }
+
+                        $params = array();
+                        // Find the status ID of the tweet that was reposted
+                        $repostofurls = array_merge((array) $object->repostof, (array) $object->syndicatedto);
+                        if ($repostofid = self::findTwitterStatusId($repostofurls)) {
+                            $params['id'] = $repostofid;
+                        } else {
+                            \Idno\Core\Idno::site()->logging()->log("Could not find a status to retweet");
+                            return;
+                        }
+
+                        \Idno\Core\Idno::site()->logging()->log('Retweeting with: ' . var_export($params, true));
+                        $response = $twitterAPI->request('POST', $twitterAPI->url('1.1/statuses/retweet'), $params);
+                        if (!empty($twitterAPI->response['response'])) {
+                            if ($json = json_decode($twitterAPI->response['response'])) {
+                                if (!empty($json->id_str) && !empty($json->user)) {
+                                    $object->setPosseLink('twitter', 'https://twitter.com/' . $json->user->screen_name . '/status/' . $json->id_str, '@' . $json->user->screen_name, $json->id_str, $json->user->screen_name);
+                                    $object->save();
+                                    \Idno\Core\Idno::site()->logging()->log("Successful retweet: " . var_export($json, true));
+                                } else {
+                                    \Idno\Core\Idno::site()->logging()->log("Bad reponse to retweet: " . var_export($json, true));
+                                }
+                            } else {
+                                \Idno\Core\Idno::site()->logging()->log("Bad JSON response to retweet: " . $twitterAPI->response['response']);
+                            }
+                        }
+                    }
+                });
+            }
+
+            /**
+             * Search a list of URLs for one that looks like a Tweet
+             * permalink and return its status id.
+             * @param array urls
+             * @return string or false
+             */
+            private static function findTwitterStatusId($urls)
+            {
+                foreach ($urls as $url) {
+                    if (parse_url($url, PHP_URL_HOST) == 'twitter.com') {
+                        preg_match('/[0-9]{8,}/', $url, $status_matches);
+                        return $status_matches[0];
+                    }
+                }
+                return false;
             }
 
             /**
