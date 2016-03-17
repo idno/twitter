@@ -146,8 +146,8 @@
                             $twitterAPI  = $this->connect();
                         }
 
+                        $status = html_entity_decode($status);
                         $status = $this->brevity->shorten($object->getTitle(), $object->getSyndicationURL(), false, false, Brevity::FORMAT_ARTICLE);
-			$status = html_entity_decode($status);
 
                         $params = array(
                             'status' => $status
@@ -188,8 +188,8 @@
                         }
 
                         // format as an "article" because we're just tweeting the title, with more content at the original url
+                        $status = html_entity_decode($status);
                         $status = $this->brevity->shorten($object->getTitle(), $object->getSyndicationURL(), false, false, Brevity::FORMAT_ARTICLE);
-			$status = html_entity_decode($status);
 
                         $params = array(
                             'status' => $status
@@ -228,8 +228,8 @@
                         	$status = '';
                         }
 
+                        $status     = html_entity_decode($status);
                         $status     = $this->brevity->shorten($status, $object->getSyndicationURL(), false, false, Brevity::FORMAT_NOTE_WITH_MEDIA);
-                        $status = html_entity_decode($status);
 
                         // Let's first try getting the thumbnail
                         if (!empty($object->thumbnail_id)) {
