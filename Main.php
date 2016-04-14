@@ -263,7 +263,7 @@
                                 		$message[] = $json->errors;
                                 		$twitter_error = $message['message']." (code ".$message['code'].")";
                                 	}
-                                    \Idno\Core\Idno::site()->session()->addMessage("We couldn't upload photo to Twitter. Twitter response: {$twitter_error}.");
+                                    \Idno\Core\Idno::site()->session()->addMessage("We couldn't upload your photo to Twitter. Twitter's response: {$twitter_error}.");
                                 }
                             }
                         }
