@@ -1,1 +1,1 @@
-<li <?php if ($_SERVER['REQUEST_URI'] == '/account/twitter/') echo 'class="active"'; ?>><a href="/account/twitter/">Twitter</a></li>
+<li <?php if ($_SERVER['REQUEST_URI'] == '/account/twitter/') echo 'class="active"'; ?>><a href="<?=\Idno\Core\site()->config()->getDisplayURL()?>account/twitter/">Twitter</a></li>
