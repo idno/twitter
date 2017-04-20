@@ -146,8 +146,8 @@
                             $twitterAPI  = $this->connect();
                         }
 
-                        $status = html_entity_decode($status);
                         $status = $this->brevity->shorten($object->getTitle(), $object->getSyndicationURL(), false, false, Brevity::FORMAT_ARTICLE);
+                        $status = html_entity_decode($status);
 
                         $params = array(
                             'status' => $status
