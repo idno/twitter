@@ -1,7 +1,7 @@
 Twitter for Known
 =================
 
-This plugin provides POSSE support for Known.
+This plugin provides <a title="Publish on your Own Site, Syndicate Elsewhere" href="http://indieweb.org/POSSE">POSSE</a> support for Known.
 
 Installation
 ------------
