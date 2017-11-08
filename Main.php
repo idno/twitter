@@ -14,6 +14,7 @@
                 parent::init();
                 require_once __DIR__ . '/autoloader.php';
                 $this->brevity = new Brevity();
+		$this->brevity->setTargetLength(280);
             }
 
             function registerPages()
