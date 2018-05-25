@@ -115,7 +115,7 @@
                         $permashortlink = \Idno\Core\Idno::site()->config()->indieweb_reference ? $object->getShortURL() : false;
                         $status         = $this->brevity->shorten($status, $permalink, $permashortlink);
 
-                        \Idno\Core\Idno::site()->logging()->log("status after shortening: $status");
+                        //\Idno\Core\Idno::site()->logging()->debug("status after shortening: $status");
 
                         $params['status'] = trim($status);
 
@@ -126,11 +126,11 @@
                                     $object->setPosseLink('twitter', 'https://twitter.com/' . $json->user->screen_name . '/status/' . $json->id_str, '@' . $json->user->screen_name, $json->id_str, $json->user->screen_name);
                                     $object->save();
                                 } else {
-                                    \Idno\Core\Idno::site()->logging()->log("Nothing was posted to Twitter: " . var_export($json,true));
-                                    \Idno\Core\Idno::site()->logging()->log("Twitter tokens: " . var_export(\Idno\Core\Idno::site()->session()->currentUser()->twitter,true));
+                                    \Idno\Core\Idno::site()->logging()->debug("Nothing was posted to Twitter: " . var_export($json,true));
+                                    //\Idno\Core\Idno::site()->logging()->log("Twitter tokens: " . var_export(\Idno\Core\Idno::site()->session()->currentUser()->twitter,true));
                                 }
                             } else {
-                                \Idno\Core\Idno::site()->logging()->log("Bad JSON from Twitter: " . var_export($json,true));
+                                \Idno\Core\Idno::site()->logging()->error("Bad JSON from Twitter: " . var_export($json,true));
                             }
                         }
                     }
@@ -162,10 +162,10 @@
                                     $object->setPosseLink('twitter', 'https://twitter.com/' . $json->user->screen_name . '/status/' . $json->id_str, '@' . $json->user->screen_name, $json->id_str, $json->user->screen_name);
                                     $object->save();
                                 }  else {
-                                    \Idno\Core\Idno::site()->logging()->log("Nothing was posted to Twitter: " . var_export($json,true));
+                                    \Idno\Core\Idno::site()->logging()->error("Nothing was posted to Twitter: " . var_export($json,true));
                                 }
                             } else {
-                                \Idno\Core\Idno::site()->logging()->log("Bad JSON from Twitter: " . var_export($json,true));
+                                \Idno\Core\Idno::site()->logging()->error("Bad JSON from Twitter: " . var_export($json,true));
                             }
                         }
 
@@ -204,10 +204,10 @@
                                     $object->setPosseLink('twitter', 'https://twitter.com/' . $json->user->screen_name . '/status/' . $json->id_str, '@' . $json->user->screen_name, $json->id_str, $json->user->screen_name);
                                     $object->save();
                                 } else {
-                                    \Idno\Core\Idno::site()->logging()->log("Nothing was posted to Twitter: " . var_export($json,true));
+                                    \Idno\Core\Idno::site()->logging()->error("Nothing was posted to Twitter: " . var_export($json,true));
                                 }
                             } else {
-                                \Idno\Core\Idno::site()->logging()->log("Bad JSON from Twitter: " . var_export($json,true));
+                                \Idno\Core\Idno::site()->logging()->error("Bad JSON from Twitter: " . var_export($json,true));
                             }
                         }
 
@@ -253,11 +253,11 @@
                                 $media['media_data'] = base64_encode(file_get_contents($filename));
                                 $params = $media;
                                 $response = $twitterAPI->request('POST', ('https://upload.twitter.com/1.1/media/upload.json'), $params, true, true);
-                                \Idno\Core\Idno::site()->logging()->log($response);
+                                \Idno\Core\Idno::site()->logging()->debug($response);
                                 $json = json_decode($twitterAPI->response['response']);
                                 if (isset($json->media_id_string)) {
                                     $media_id[] = $json->media_id_string;
-                                    error_log("Twitter media_id : " . $json->media_id);
+                                    \Idno\Core\Idno::site()->logging()->error("Twitter media_id : " . $json->media_id);
                                 } else {
                                 	/*{"errors":[{"message":"Sorry, that page does not exist","code":34}]}*/
                                 	if (isset($json->errors)){
@@ -276,9 +276,9 @@
                             'media_ids' => "{$id}");
                         try {
                             $response = $twitterAPI->request('POST', ('https://api.twitter.com/1.1/statuses/update.json'), $params, true, false);
-                            \Idno\Core\Idno::site()->logging()->log("JSON from Twitter: " . var_export($twitterAPI->response['response'], true));
+                            \Idno\Core\Idno::site()->logging()->debug("JSON from Twitter: " . var_export($twitterAPI->response['response'], true));
                         } catch (\Exception $e) {
-                            \Idno\Core\Idno::site()->logging()->log($e);
+                            \Idno\Core\Idno::site()->logging()->error($e->getMessage());
                         }
                     }
                         /*$code = $twitterAPI->request( 'POST','https://upload.twitter.com/1.1/statuses/update_with_media',
@@ -295,10 +295,10 @@
                                     $object->setPosseLink('twitter', 'https://twitter.com/' . $json->user->screen_name . '/status/' . $json->id_str, '@' . $json->user->screen_name, $json->id_str, $json->user->screen_name);
                                     $object->save();
                                 } else {
-                                    \Idno\Core\Idno::site()->logging()->log("Nothing was posted to Twitter: " . var_export($json,true));
+                                    \Idno\Core\Idno::site()->logging()->error("Nothing was posted to Twitter: " . var_export($json,true));
                                 }
                             } else {
-                                \Idno\Core\Idno::site()->logging()->log("Bad JSON from Twitter: " . var_export($json,true));
+                                \Idno\Core\Idno::site()->logging()->error("Bad JSON from Twitter: " . var_export($json,true));
                             }
                         }
 
@@ -323,7 +323,7 @@
                             $params['id'] = $likeof['status_id'];
                         }
                         else {
-                            \Idno\Core\Idno::site()->logging()->log("Could not find a status to like");
+                            \Idno\Core\Idno::site()->logging()->error("Could not find a status to like");
                             return;
                         }
 
@@ -333,7 +333,7 @@
                                 // not much to be done with the result but log it
                                 \Idno\Core\Idno::site()->logging()->log("Successfully posted like to Twitter: " . var_export($json, true));
                             } else {
-                                \Idno\Core\Idno::site()->logging()->log("Bad JSON response when posting a like to Twitter: " . $twitterAPI->response['response']);
+                                \Idno\Core\Idno::site()->logging()->error("Bad JSON response when posting a like to Twitter: " . $twitterAPI->response['response']);
                             }
                         }
                     }
@@ -356,7 +356,7 @@
                         if ($repostof = self::findTwitterStatus($repostofurls)) {
                             $params['id'] = $repostof['status_id'];
                         } else {
-                            \Idno\Core\Idno::site()->logging()->log("Could not find a status to retweet");
+                            \Idno\Core\Idno::site()->logging()->error("Could not find a status to retweet");
                             return;
                         }
 
@@ -369,10 +369,10 @@
                                     $object->save();
                                     \Idno\Core\Idno::site()->logging()->log("Successful retweet: " . var_export($json, true));
                                 } else {
-                                    \Idno\Core\Idno::site()->logging()->log("Bad reponse to retweet: " . var_export($json, true));
+                                    \Idno\Core\Idno::site()->logging()->error("Bad reponse to retweet: " . var_export($json, true));
                                 }
                             } else {
-                                \Idno\Core\Idno::site()->logging()->log("Bad JSON response to retweet: " . $twitterAPI->response['response']);
+                                \Idno\Core\Idno::site()->logging()->error("Bad JSON response to retweet: " . $twitterAPI->response['response']);
                             }
                         }
                     }
