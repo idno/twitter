@@ -17,7 +17,7 @@ module.exports = function (grunt) {
 	execSync('touch ./languages/twitter.pot'); // Make sure it exists, if we're going to remove (for broken builds)
 	execSync('rm ./languages/twitter.pot'); // Remove existing
 	
-	execSync('find . -type f -regex ".*\.php" | php ../../languages/processfile.php >> ./languages/event.pot'); 
+	execSync('find . -type f -regex ".*\.php" | php ../../languages/processfile.php >> ./languages/twitter.pot'); 
 	
     });
 
