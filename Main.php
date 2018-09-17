@@ -16,6 +16,15 @@
                 $this->brevity = new Brevity();
 		$this->brevity->setTargetLength(280);
             }
+	    
+	    function registerTranslations() {
+
+                \Idno\Core\Idno::site()->language()->register(
+                    new \Idno\Core\GetTextTranslation(
+                        'twitter', dirname(__FILE__) . '/languages/'
+                    )
+                );
+            }
 
             function registerPages()
             {
