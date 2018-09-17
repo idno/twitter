@@ -1,5 +1,5 @@
 /**
- * Gruntfile for Checkin
+ * Gruntfile for Twitter
  */
 
 module.exports = function (grunt) {
