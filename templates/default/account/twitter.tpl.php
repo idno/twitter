@@ -25,16 +25,16 @@
 	                <div class="row">
 	                <div class="col-md-7">
                     <p>
-                        Easily share updates, posts, and pictures to Twitter. </p>
+                        <?= \Idno\Core\Idno::site()->language()->_('Easily share updates, posts, and pictures to Twitter.'); ?> </p>
                     <p>
-	                        With Twitter connected, you can cross-post content that you publish publicly on your site. 
+	                        <?= \Idno\Core\Idno::site()->language()->_('With Twitter connected, you can cross-post content that you publish publicly on your site.'); ?>
                     </p>
 
                     
                     <div class="social">
 				     <p>
                      <a href="<?= $vars['oauth_url'] ?>" class="tw connect"><i class="fab fa-twitter"></i>
- Connect Twitter</a>
+ <?= \Idno\Core\Idno::site()->language()->_('Connect Twitter'); ?></a>
                      </p>
 					</div>
 					
@@ -54,8 +54,7 @@
 	                    <div class="row">
 						<div class="col-md-7">
                           <p>
-                              Your account is currently connected to Twitter. Public content that you publish here
-                              can be cross-posted to your Twitter account.
+                              <?= \Idno\Core\Idno::site()->language()->_('Your account is currently connected to Twitter. Public content that you publish here can be cross-posted to your Twitter account.'); ?>
                           </p>
 
 
@@ -63,7 +62,7 @@
                           <p>
                               <input type="hidden" name="remove" value="1" class="form-control" />
                               <button type="submit" class="tw connect connected"><i class="fab fa-twitter"></i>
- Disconnect Twitter</button>
+ <?= \Idno\Core\Idno::site()->language()->_('Disconnect Twitter'); ?></button>
                           </p>
 						</div>
                           
@@ -83,8 +82,7 @@
 	                    <div class="row">
 						<div class="col-md-7">
                           <p>
-							You have connected the below accounts to Twitter. Public content that you publish here
-                              can be cross-posted to your Twitter account.
+			    <?= \Idno\Core\Idno::site()->language()->_('You have connected the below accounts to Twitter. Public content that you publish here can be cross-posted to your Twitter account.'); ?>
                           </p>
 
 						<?php
@@ -100,7 +98,7 @@
                                                     <input type="hidden" name="remove" class="form-control" value="<?= $account['username'] ?>"/>
                                                     <button type="submit"
                                                             class="tw connect connected"><i class="fab fa-twitter"></i>
- @<?= $account['username'] ?> (Disconnect)</button>
+ @<?= $account['username'] ?> (<?= \Idno\Core\Idno::site()->language()->_('Disconnect'); ?>)</button>
                                                 </p>
                                                 </div>
                                             <?php
@@ -112,7 +110,7 @@
                                     ?>
                                                 
                           <p>
-                                        <a href="<?= $vars['oauth_url'] ?>" class=""><i class="fa fa-plus"></i> Add another Twitter account</a>
+                                        <a href="<?= $vars['oauth_url'] ?>" class=""><i class="fa fa-plus"></i> <?= \Idno\Core\Idno::site()->language()->_('Add another Twitter account'); ?></a>
                                     </p>
                       </div>
                   </div>
@@ -140,11 +138,10 @@
 	                    <div class="row">
 						<div class="col-md-7">
                     <p>
-                        Before you can begin connecting to Twitter, you need to set it up.
+                        <?= \Idno\Core\Idno::site()->language()->_('Before you can begin connecting to Twitter, you need to set it up.'); ?>
                     </p>
                     <p>
-                        <a href="<?= \Idno\Core\site()->config()->getDisplayURL() ?>admin/twitter/">Click here to begin
-                            Twitter configuration.</a>
+                        <a href="<?= \Idno\Core\site()->config()->getDisplayURL() ?>admin/twitter/"><?= \Idno\Core\Idno::site()->language()->_('Click here to begin Twitter configuration.'); ?></a>
                     </p>
                 <?php
 
@@ -152,8 +149,7 @@
 
                     ?>
                     <p>
-                        The administrator has not finished setting up Twitter on this site.
-                        Please come back later.
+                        <?= \Idno\Core\Idno::site()->language()->_('The administrator has not finished setting up Twitter on this site. Please come back later.'); ?>
                     </p>
                     </div>
                     </div>

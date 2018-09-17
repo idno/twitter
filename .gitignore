@@ -12,3 +12,7 @@ Twitter/.idea/codeStyleSettings.xml
 .idea/.name
 
 *.iml
+
+.AppleDouble
+
+/nbproject/

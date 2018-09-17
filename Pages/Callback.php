@@ -37,10 +37,10 @@
                             \Idno\Core\site()->syndication()->registerServiceAccount('twitter', $access_token['screen_name'], '@' . $access_token['screen_name']);
                             $user->twitter[$access_token['screen_name']] = array('user_token' => $access_token['oauth_token'], 'user_secret' => $access_token['oauth_token_secret'], 'screen_name' => $access_token['screen_name']);
                             $user->save();
-                            \Idno\Core\site()->session()->addMessage('Your Twitter credentials were saved.');
+                            \Idno\Core\site()->session()->addMessage(\Idno\Core\Idno::site()->language()->_('Your Twitter credentials were saved.'));
                         }
                         else {
-                            \Idno\Core\site()->session()->addErrorMessage('Your Twitter credentials could not be saved.');
+                            \Idno\Core\site()->session()->addErrorMessage(\Idno\Core\Idno::site()->language()->_('Your Twitter credentials could not be saved.'));
                         }
 
                         if (!empty($_SESSION['onboarding_passthrough'])) {

@@ -29,7 +29,7 @@
                     'consumer_secret' => $consumer_secret
                 );
                 \Idno\Core\site()->config()->save();
-                \Idno\Core\site()->session()->addMessage('Your Twitter application details were saved.');
+                \Idno\Core\site()->session()->addMessage(\Idno\Core\Idno::site()->language()->_('Your Twitter application details were saved.'));
                 $this->forward(\Idno\Core\site()->config()->getDisplayURL() . 'admin/twitter/');
             }
 
