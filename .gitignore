@@ -12,3 +12,11 @@ Twitter/.idea/codeStyleSettings.xml
 .idea/.name
 
 *.iml
+
+.AppleDouble
+
+/nbproject/
+
+node_modules
+package-lock.json
+!package.json

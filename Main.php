@@ -16,6 +16,15 @@
                 $this->brevity = new Brevity();
 		$this->brevity->setTargetLength(280);
             }
+	    
+	    function registerTranslations() {
+
+                \Idno\Core\Idno::site()->language()->register(
+                    new \Idno\Core\GetTextTranslation(
+                        'twitter', dirname(__FILE__) . '/languages/'
+                    )
+                );
+            }
 
             function registerPages()
             {
@@ -264,7 +273,7 @@
                                 		$message[] = $json->errors;
                                 		$twitter_error = $message['message']." (code ".$message['code'].")";
                                 	}
-                                    \Idno\Core\Idno::site()->session()->addMessage("We couldn't upload your photo to Twitter. Twitter's response: {$twitter_error}.");
+                                    \Idno\Core\Idno::site()->session()->addMessage(\Idno\Core\Idno::site()->language()->_("We couldn't upload your photo to Twitter. Twitter's response: %s.", [$twitter_error]));
                                 }
                             }
                         }

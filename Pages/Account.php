@@ -30,7 +30,7 @@
                     $user = \Idno\Core\site()->session()->currentUser();
                     $user->twitter = array();
                     $user->save();
-                    \Idno\Core\site()->session()->addMessage('Your Twitter settings have been removed from your account.');
+                    \Idno\Core\site()->session()->addMessage(\Idno\Core\Idno::site()->language()->_('Your Twitter settings have been removed from your account.'));
                 }
                 $this->forward(\Idno\Core\site()->config()->getDisplayURL() . 'account/twitter/');
             }
