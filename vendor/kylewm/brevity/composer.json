@@ -1,6 +1,6 @@
 {
     "name": "kylewm/brevity",
-    "description": "A small utility to shorten posts to an acceptable tweet-length summary.",
+    "description": "A small utility to count characters and shorten posts to tweet-length.",
     "require-dev": {
         "phpunit/phpunit": "^4.8"
     },
@@ -8,7 +8,7 @@
     "authors": [
         {
             "name": "Kyle Mahan",
-            "email": "kylew+brevityphp@kylewm.com"
+            "email": "kyle+brevityphp@kylewm.com"
         }
     ],
     "require": {},

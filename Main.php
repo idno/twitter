@@ -12,7 +12,7 @@
             function init()
             {
                 parent::init();
-                require_once __DIR__ . '/autoloader.php';
+                require_once __DIR__ . '/vendor/autoloader.php';
                 $this->brevity = new Brevity();
 		$this->brevity->setTargetLength(280);
             }
@@ -29,15 +29,15 @@
             function registerPages()
             {
                 // Auth URL
-                \Idno\Core\Idno::site()->addPageHandler('twitter/auth', '\IdnoPlugins\Twitter\Pages\Auth');
+                \Idno\Core\Idno::site()->routes()->addRoute('twitter/auth', '\IdnoPlugins\Twitter\Pages\Auth');
                 // Deauth URL
-                \Idno\Core\Idno::site()->addPageHandler('twitter/deauth', '\IdnoPlugins\Twitter\Pages\Deauth');
+                \Idno\Core\Idno::site()->routes()->addRoute('twitter/deauth', '\IdnoPlugins\Twitter\Pages\Deauth');
                 // Register the callback URL
-                \Idno\Core\Idno::site()->addPageHandler('twitter/callback', '\IdnoPlugins\Twitter\Pages\Callback');
+                \Idno\Core\Idno::site()->routes()->addRoute('twitter/callback', '\IdnoPlugins\Twitter\Pages\Callback');
                 // Register admin settings
-                \Idno\Core\Idno::site()->addPageHandler('admin/twitter', '\IdnoPlugins\Twitter\Pages\Admin');
+                \Idno\Core\Idno::site()->routes()->addRoute('admin/twitter', '\IdnoPlugins\Twitter\Pages\Admin');
                 // Register settings page
-                \Idno\Core\Idno::site()->addPageHandler('account/twitter', '\IdnoPlugins\Twitter\Pages\Account');
+                \Idno\Core\Idno::site()->routes()->addRoute('account/twitter', '\IdnoPlugins\Twitter\Pages\Account');
 
                 /** Template extensions */
                 // Add menu items to account & administration screens
@@ -53,7 +53,7 @@
                     return $this->hasTwitter();
                 }, array('note', 'article', 'image', 'media', 'rsvp', 'bookmark', 'like', 'share'));
 
-                \Idno\Core\Idno::site()->addEventHook('user/auth/success', function (\Idno\Core\Event $event) {
+                \Idno\Core\Idno::site()->events()->addListener('user/auth/success', function (\Idno\Core\Event $event) {
                     if ($this->hasTwitter()) {
                         $twitter = \Idno\Core\Idno::site()->session()->currentUser()->twitter;
                         if (is_array($twitter)) {
@@ -70,7 +70,7 @@
                 });
 
                 // Activate syndication automatically, if replying to twitter
-                \Idno\Core\Idno::site()->addEventHook('syndication/selected/twitter', function (\Idno\Core\Event $event) {
+                \Idno\Core\Idno::site()->events()->addListener('syndication/selected/twitter', function (\Idno\Core\Event $event) {
                     $eventdata = $event->data();
 
                     if (!empty($eventdata['reply-to'])) {
@@ -83,7 +83,7 @@
                 });
 
                 // Push "notes" to Twitter
-                \Idno\Core\Idno::site()->addEventHook('post/note/twitter', function (\Idno\Core\Event $event) {
+                \Idno\Core\Idno::site()->events()->addListener('post/note/twitter', function (\Idno\Core\Event $event) {
                     $eventdata = $event->data();
                     if ($this->hasTwitter()) {
                         $object = $eventdata['object'];
@@ -182,12 +182,12 @@
                 };
 
                 // Push "articles" and "rsvps" to Twitter
-                \Idno\Core\Idno::site()->addEventHook('post/article/twitter', $article_handler);
-                \Idno\Core\Idno::site()->addEventHook('post/rsvp/twitter', $article_handler);
-                \Idno\Core\Idno::site()->addEventHook('post/bookmark/twitter', $article_handler);
+                \Idno\Core\Idno::site()->events()->addListener('post/article/twitter', $article_handler);
+                \Idno\Core\Idno::site()->events()->addListener('post/rsvp/twitter', $article_handler);
+                \Idno\Core\Idno::site()->events()->addListener('post/bookmark/twitter', $article_handler);
 
                 // Push "media" to Twitter
-                \Idno\Core\Idno::site()->addEventHook('post/media/twitter', function (\Idno\Core\Event $event) {
+                \Idno\Core\Idno::site()->events()->addListener('post/media/twitter', function (\Idno\Core\Event $event) {
                     if ($this->hasTwitter()) {
                         $eventdata = $event->data();
                         $object    = $eventdata['object'];
@@ -224,7 +224,7 @@
                 });
 
                 // Push "images" to Twitter
-                \Idno\Core\Idno::site()->addEventHook('post/image/twitter', function (\Idno\Core\Event $event) {
+                \Idno\Core\Idno::site()->events()->addListener('post/image/twitter', function (\Idno\Core\Event $event) {
                     if ($this->hasTwitter()) {
                         $eventdata = $event->data();
                         $object     = $eventdata['object'];
@@ -315,7 +315,7 @@
                 });
 
                 // Push "likes" to Twitter
-                \Idno\Core\Idno::site()->addEventHook('post/like/twitter', function (\Idno\Core\Event $event) {
+                \Idno\Core\Idno::site()->events()->addListener('post/like/twitter', function (\Idno\Core\Event $event) {
                     $eventdata = $event->data();
                     if ($this->hasTwitter()) {
                         $object      = $eventdata['object'];
@@ -349,7 +349,7 @@
                 });
 
                 // Push "shares" (reposts) to Twitter
-                \Idno\Core\Idno::site()->addEventHook('post/share/twitter', function (\Idno\Core\Event $event) {
+                \Idno\Core\Idno::site()->events()->addListener('post/share/twitter', function (\Idno\Core\Event $event) {
                     $eventdata = $event->data();
                     if ($this->hasTwitter()) {
                         $object      = $eventdata['object'];
@@ -443,8 +443,6 @@
              */
             function connect($username = false)
             {
-                require_once(dirname(__FILE__) . '/external/tmhOAuth/tmhOAuth.php');
-                require_once(dirname(__FILE__) . '/external/tmhOAuth/tmhUtilities.php');
                 if (!empty(\Idno\Core\Idno::site()->config()->twitter)) {
                     $params = array(
                         'consumer_key'    => \Idno\Core\Idno::site()->config()->twitter['consumer_key'],
