@@ -24,7 +24,7 @@
                 $this->adminGatekeeper(); // Admins only
                 $consumer_key = trim($this->getInput('consumer_key'));
                 $consumer_secret = trim($this->getInput('consumer_secret'));
-                \Idno\Core\site()->config->config['twitter'] = array(
+                \Idno\Core\site()->config()->config['twitter'] = array(
                     'consumer_key' => $consumer_key,
                     'consumer_secret' => $consumer_secret
                 );
