@@ -1,20 +1,8 @@
-#: ./Pages/Callback.php:18
-msgid "Your Twitter credentials were saved."
+#: ./Main.php:276
+msgid "We couldn't upload your photo to Twitter. Twitter's response: %s."
 msgstr ""
 
-#: ./Pages/Callback.php:18
-msgid "Your Twitter credentials could not be saved."
-msgstr ""
-
-#: ./Pages/Account.php:18
-msgid "Your Twitter settings have been removed from your account."
-msgstr ""
-
-#: ./Pages/Admin.php:18
-msgid "Your Twitter application details were saved."
-msgstr ""
-
-#: ./templates/default/admin/twitter.tpl.php:4
+#: ./templates/default/admin/twitter.tpl.php:5
 msgid "Twitter configuration"
 msgstr ""
 
@@ -26,71 +14,83 @@ msgstr ""
 msgid "The callback URL should be set to:"
 msgstr ""
 
-#: ./templates/default/admin/twitter.tpl.php:18
+#: ./templates/default/admin/twitter.tpl.php:30
 msgid "Once you\'ve finished, fill in the details below:"
 msgstr ""
 
-#: ./templates/default/admin/twitter.tpl.php:18
+#: ./templates/default/admin/twitter.tpl.php:32
 msgid "API key"
 msgstr ""
 
-#: ./templates/default/admin/twitter.tpl.php:18
+#: ./templates/default/admin/twitter.tpl.php:38
 msgid "API secret"
 msgstr ""
 
-#: ./templates/default/admin/twitter.tpl.php:18
+#: ./templates/default/admin/twitter.tpl.php:46
 msgid "After the Twitter application is configured, site users must authenticate their Twitter account under Settings."
 msgstr ""
 
-#: ./templates/default/admin/twitter.tpl.php:18
+#: ./templates/default/admin/twitter.tpl.php:53
 msgid "Save settings"
 msgstr ""
 
-#: ./templates/default/account/twitter.tpl.php:18
+#: ./templates/default/account/twitter.tpl.php:28
 msgid "Easily share updates, posts, and pictures to Twitter."
 msgstr ""
 
-#: ./templates/default/account/twitter.tpl.php:18
+#: ./templates/default/account/twitter.tpl.php:30
 msgid "With Twitter connected, you can cross-post content that you publish publicly on your site."
 msgstr ""
 
-#: ./templates/default/account/twitter.tpl.php:18
+#: ./templates/default/account/twitter.tpl.php:37
 msgid "Connect Twitter"
 msgstr ""
 
-#: ./templates/default/account/twitter.tpl.php:18
+#: ./templates/default/account/twitter.tpl.php:57
 msgid "Your account is currently connected to Twitter. Public content that you publish here can be cross-posted to your Twitter account."
 msgstr ""
 
-#: ./templates/default/account/twitter.tpl.php:18
+#: ./templates/default/account/twitter.tpl.php:65
 msgid "Disconnect Twitter"
 msgstr ""
 
-#: ./templates/default/account/twitter.tpl.php:18
+#: ./templates/default/account/twitter.tpl.php:85
 msgid "You have connected the below accounts to Twitter. Public content that you publish here can be cross-posted to your Twitter account."
 msgstr ""
 
-#: ./templates/default/account/twitter.tpl.php:18
+#: ./templates/default/account/twitter.tpl.php:101
 msgid "Disconnect"
 msgstr ""
 
-#: ./templates/default/account/twitter.tpl.php:18
+#: ./templates/default/account/twitter.tpl.php:113
 msgid "Add another Twitter account"
 msgstr ""
 
-#: ./templates/default/account/twitter.tpl.php:18
+#: ./templates/default/account/twitter.tpl.php:141
 msgid "Before you can begin connecting to Twitter, you need to set it up."
 msgstr ""
 
-#: ./templates/default/account/twitter.tpl.php:18
+#: ./templates/default/account/twitter.tpl.php:144
 msgid "Click here to begin Twitter configuration."
 msgstr ""
 
-#: ./templates/default/account/twitter.tpl.php:18
+#: ./templates/default/account/twitter.tpl.php:152
 msgid "The administrator has not finished setting up Twitter on this site. Please come back later."
 msgstr ""
 
-#: ./Main.php:18
-msgid "We couldn't upload your photo to Twitter. Twitter's response: %s."
+#: ./Pages/Account.php:33
+msgid "Your Twitter settings have been removed from your account."
+msgstr ""
+
+#: ./Pages/Admin.php:32
+msgid "Your Twitter application details were saved."
+msgstr ""
+
+#: ./Pages/Callback.php:40
+msgid "Your Twitter credentials were saved."
+msgstr ""
+
+#: ./Pages/Callback.php:43
+msgid "Your Twitter credentials could not be saved."
 msgstr ""
 
