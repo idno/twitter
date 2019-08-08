@@ -2,13 +2,17 @@
     "name": "idno/twitter",
     "type": "known-plugin",
     "description": "Cross-post site content to Twitter. Contains Matt Harris's <a href=\"https://github.com/themattharris/tmhOAuth\">Twitter library</a>, released under the Apache 2.0 license.",
-    "version": "0.1.4",
-
+    "version": "0.1.5",
     "prefer-stable": true,
     "minimum-stability": "dev",
     "require": {
         "kylewm/brevity": "^0.2.10",
-        "themattharris/tmhoauth": "^0.8.4"
+        "themattharris/tmhoauth": "^0.8.4",
+        "composer/installers": "~1.0"
+    },
+    "require-dev": {
+        "mapkyca/known-language-tools": "^1.0",
+        "mapkyca/known-dev-scripts": "^1.0"
     },
     "extra": {
         "installer-name": "Twitter"

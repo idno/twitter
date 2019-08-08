@@ -20,3 +20,4 @@ Twitter/.idea/codeStyleSettings.xml
 node_modules
 package-lock.json
 !package.json
+composer.lock
