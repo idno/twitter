@@ -16,6 +16,7 @@ Twitter/.idea/codeStyleSettings.xml
 .AppleDouble
 
 /nbproject/
+/vendor/
 
 node_modules
 package-lock.json
