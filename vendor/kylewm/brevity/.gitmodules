@@ -1,3 +1,0 @@
-[submodule "brevity-testcases"]
-	path = testcases
-	url = https://github.com/kylewm/brevity-testcases.git
