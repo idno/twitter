@@ -12,7 +12,7 @@
             function init()
             {
                 parent::init();
-                require_once __DIR__ . '/vendor/autoload.php';
+                //require_once __DIR__ . '/vendor/autoload.php';
                 $this->brevity = new Brevity();
 		$this->brevity->setTargetLength(280);
             }
