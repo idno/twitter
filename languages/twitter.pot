@@ -1,5 +1,17 @@
-#: ./Main.php:276
-msgid "We couldn't upload your photo to Twitter. Twitter's response: %s."
+#: ./Pages/Account.php:33
+msgid "Your Twitter settings have been removed from your account."
+msgstr ""
+
+#: ./Pages/Callback.php:40
+msgid "Your Twitter credentials were saved."
+msgstr ""
+
+#: ./Pages/Callback.php:43
+msgid "Your Twitter credentials could not be saved."
+msgstr ""
+
+#: ./Pages/Admin.php:32
+msgid "Your Twitter application details were saved."
 msgstr ""
 
 #: ./templates/default/admin/twitter.tpl.php:5
@@ -78,19 +90,7 @@ msgstr ""
 msgid "The administrator has not finished setting up Twitter on this site. Please come back later."
 msgstr ""
 
-#: ./Pages/Account.php:33
-msgid "Your Twitter settings have been removed from your account."
-msgstr ""
-
-#: ./Pages/Admin.php:32
-msgid "Your Twitter application details were saved."
-msgstr ""
-
-#: ./Pages/Callback.php:40
-msgid "Your Twitter credentials were saved."
-msgstr ""
-
-#: ./Pages/Callback.php:43
-msgid "Your Twitter credentials could not be saved."
+#: ./Main.php:276
+msgid "We couldn't upload your photo to Twitter. Twitter's response: %s."
 msgstr ""
 
