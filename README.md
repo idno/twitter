@@ -7,6 +7,7 @@ Installation
 ------------
 
 * Drop the Twitter folder into the IdnoPlugins folder of your Known installation.
+* You need to run ``composer install`` or ``composer update`` if you're updating in the Twitter folder so PHP Composer will download and install the dependencies. (see "Vendor" folder)
 * Log into Known and click **Site Configuration**.
 * On the **Site Features** tab, click **Enable** next to Twitter. A **Twitter**
   entry is added to the site configuration menu.
