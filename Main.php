@@ -16,7 +16,7 @@
                 $this->brevity = new Brevity();
 		$this->brevity->setTargetLength(280);
             }
-	    
+
 	    function registerTranslations() {
 
                 \Idno\Core\Idno::site()->language()->register(
@@ -283,6 +283,21 @@
                         $id = implode(',', $media_id);
                         $params = array('status' => $status,
                             'media_ids' => "{$id}");
+
+                        // Find any Twitter status IDs in case we need to mark this as a reply to them
+                        $inreplytourls = array_merge((array) $object->inreplyto, (array) $object->syndicatedto);
+                        if ($inreplyto = self::findTwitterStatus($inreplytourls)) {
+                            $params['in_reply_to_status_id'] = $inreplyto['status_id'];
+
+                            // if inreplytoname is not in the status, and is not this user's name, then prepend it to the status
+                            $replyName = $inreplyto['screen_name'];
+                            if ($replyName
+                                    && mb_strtolower($screenName) !== mb_strtolower($replyName)
+                                    && mb_stristr($status, '@'.$replyName) === false) {
+                                $status = '@' . $replyName . ' ' . $status;
+                            }
+                        }
+
                         try {
                             $response = $twitterAPI->request('POST', ('https://api.twitter.com/1.1/statuses/update.json'), $params, true, false);
                             \Idno\Core\Idno::site()->logging()->debug("JSON from Twitter: " . var_export($twitterAPI->response['response'], true));
