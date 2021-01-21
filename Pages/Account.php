@@ -27,8 +27,13 @@
             function postContent() {
                 $this->gatekeeper(); // Logged-in users only
                 if (($this->getInput('remove'))) {
+                    $rm = $this->getInput('remove');
                     $user = \Idno\Core\site()->session()->currentUser();
-                    $user->twitter = array();
+                    if($rm === '1') {
+                        $user->twitter = array();    // wipes all credentials
+                    } else {
+                        unset($user->twitter[$rm]);  // wipes specific credentials
+                    }
                     $user->save();
                     \Idno\Core\site()->session()->addMessage(\Idno\Core\Idno::site()->language()->_('Your Twitter settings have been removed from your account.'));
                 }
