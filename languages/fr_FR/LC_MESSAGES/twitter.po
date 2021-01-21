@@ -1,0 +1,112 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.2.4\n"
+"Last-Translator: \n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Language: fr_FR\n"
+
+#: ./Main.php:276
+msgid "We couldn't upload your photo to Twitter. Twitter's response: %s."
+msgstr "Nous n’avons pas pu télécharger votre photo sur Twitter. Réponse de Twitter: %s."
+
+#: ./Pages/Account.php:33
+msgid "Your Twitter settings have been removed from your account."
+msgstr "Votre paramètres Twitter ont été supprimés de votre compte."
+
+#: ./Pages/Admin.php:32
+msgid "Your Twitter application details were saved."
+msgstr "Les détails de votre application Twitter ont été sauvegardés."
+
+#: ./Pages/Callback.php:40
+msgid "Your Twitter credentials were saved."
+msgstr "Vos informations d'identification Twitter ont été enregistrées."
+
+#: ./Pages/Callback.php:43
+msgid "Your Twitter credentials could not be saved."
+msgstr "Vos informations d'identification Twitter n'ont pas pu être sauvegardées."
+
+#: ./templates/default/account/twitter.tpl.php:28
+msgid "Easily share updates, posts, and pictures to Twitter."
+msgstr "Partagez facilement des mises à jour, des publications et des photos sur Twitter."
+
+#: ./templates/default/account/twitter.tpl.php:30
+msgid "With Twitter connected, you can cross-post content that you publish publicly on your site."
+msgstr "Avec Twitter connecté, vous pouvez publier du contenu que vous publiez publiquement sur votre site."
+
+#: ./templates/default/account/twitter.tpl.php:37
+msgid "Connect Twitter"
+msgstr "Connectez Twitter"
+
+#: ./templates/default/account/twitter.tpl.php:57
+msgid "Your account is currently connected to Twitter. Public content that you publish here can be cross-posted to your Twitter account."
+msgstr "Votre compte est actuellement connecté au Twitter. Les mises à jour publiques, les photos et les publications que vous publiez ici peuvent être cross-posted (renvoit multiples)."
+
+#: ./templates/default/account/twitter.tpl.php:65
+msgid "Disconnect Twitter"
+msgstr "Déconnecter Twitter"
+
+#: ./templates/default/account/twitter.tpl.php:85
+msgid "You have connected the below accounts to Twitter. Public content that you publish here can be cross-posted to your Twitter account."
+msgstr "Vous avez connecté les comptes ci-dessous à Twitter. Les mises à jour publiques, les photos et les publications que vous publiez ici peuvent être cross-posted (renvoit multiples)."
+
+#: ./templates/default/account/twitter.tpl.php:101
+msgid "Disconnect"
+msgstr "Débrancher"
+
+#: ./templates/default/account/twitter.tpl.php:113
+msgid "Add another Twitter account"
+msgstr "Ajouter un autre compte Twitter"
+
+#: ./templates/default/account/twitter.tpl.php:141
+msgid "Before you can begin connecting to Twitter, you need to set it up."
+msgstr "Avant de commencer à vous connecter à Twitter, vous devez le configurer."
+
+#: ./templates/default/account/twitter.tpl.php:144
+msgid "Click here to begin Twitter configuration."
+msgstr "Cliquez ici pour commencer la configuration Twitter."
+
+#: ./templates/default/account/twitter.tpl.php:152
+msgid "The administrator has not finished setting up Twitter on this site. Please come back later."
+msgstr "L’administrateur n’a pas fini de configurer Twitter sur ce site. S’ll vous plaît, revenez plus tard."
+
+#: ./templates/default/admin/twitter.tpl.php:5
+msgid "Twitter configuration"
+msgstr "Configuration Twitter"
+
+#: ./templates/default/admin/twitter.tpl.php:16
+msgid "To begin using Twitter, <a href=\"https://dev.twitter.com/apps\" target=\"_blank\">create a new application in the Twitter developer portal</a>"
+msgstr "Pour commencer à utiliser Twitter, <a href=\"https://dev.twitter.com/apps\" target=\"_blank\">créez une nouvelle application dans le portail des développeurs Twitter</a>"
+
+#: ./templates/default/admin/twitter.tpl.php:18
+msgid "The callback URL should be set to:"
+msgstr "L’URL de rappel doit être réglé sur :"
+
+#: ./templates/default/admin/twitter.tpl.php:30
+msgid "Once you've finished, fill in the details below:"
+msgstr "Une fois que vous avez terminé, remplissez les détails ci-dessous :"
+
+#: ./templates/default/admin/twitter.tpl.php:32
+msgid "API key"
+msgstr "Clé API"
+
+#: ./templates/default/admin/twitter.tpl.php:38
+msgid "API secret"
+msgstr "Secret API"
+
+#: ./templates/default/admin/twitter.tpl.php:46
+msgid "After the Twitter application is configured, site users must authenticate their Twitter account under Settings."
+msgstr "Une fois l’application Twitter configurée, les utilisateurs du site doivent authentifier leur compte Twitter sous Paramètres."
+
+#: ./templates/default/admin/twitter.tpl.php:53
+msgid "Save settings"
+msgstr "Enregistre paramètres"
+
+# Known localisation covers above
+
